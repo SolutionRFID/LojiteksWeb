@@ -14,7 +14,7 @@ File: Main Js File
 
     var language = localStorage.getItem('language');
     // Default Language
-    var default_lang = 'en';
+    var default_lang = 'tr';
 
     function setLanguage(lang) {
         if (document.getElementById("header-lang-img")) {
@@ -31,6 +31,9 @@ File: Main Js File
             }
             else if (lang == 'ru') {
                 document.getElementById("header-lang-img").src = "/assets/images/flags/russia.jpg";
+            }
+            else if (lang == 'tr') {
+                document.getElementById("header-lang-img").src = "/assets/images/flags/turkey.jpg";
             }
             localStorage.setItem('language', lang);
             language = localStorage.getItem('language');
