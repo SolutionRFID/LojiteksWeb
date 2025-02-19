@@ -178,29 +178,59 @@ namespace LojiteksApi.Controllers
         public async Task<IActionResult> CreateBaslik(BaslikDetailModel baslik)
         {
             var responseMessage = new ResponseMessage();
-            TBL_Baslik tblBaslik = new TBL_Baslik
-            {
-                Tipi = baslik.Tipi,
-                Aciklama = baslik.Aciklama,
-                MusteriID = baslik.MusteriID == -1 ? (long?)null : baslik.MusteriID,
-                GonderimTarihi = baslik.GonderimTarihi,
-                GonderiAdedi = baslik.GonderiAdedi,
-                Kullanici = baslik.Kullanici,
-                FirmaID = baslik.FirmaID == -1 ? (long?)null : baslik.FirmaID,
-                SevkiyatAd = baslik.SevkiyatAd,
-                PO_Number = baslik.PO_Number,
-                CihazID = baslik.CihazID == -1 ? (long?)null : baslik.CihazID,
-                KayitTarihi = DateTime.Now,
-                SilindiMi = baslik.SilindiMi
-            };
-
-            var epcs = new List<TBL_Epc>();
-            var koliler = new Dictionary<long?, TBL_Koli>();
 
             try
             {
+                // Benzersiz olarak belirleyebileceğiniz kriteri kullanarak mevcut kaydı arıyoruz.
+                // Örneğin: FirmaID ve GonderimTarihi üzerinden
+                var firmaID = baslik.FirmaID == -1 ? (long?)null : baslik.FirmaID;
+                var existingBaslik = await _context.Set<TBL_Baslik>()
+                    .FirstOrDefaultAsync(b => b.FirmaID == firmaID && b.GonderimTarihi == baslik.GonderimTarihi);
+
+                if (existingBaslik != null)
+                {
+                    // İlişkili TBL_Epc kayıtlarını alıp siliyoruz
+                    var existingEpcs = await _context.TBL_Epcler
+                        .Where(e => e.BaslikID == existingBaslik.BaslikID)
+                        .ToListAsync();
+                    _context.TBL_Epcler.RemoveRange(existingEpcs);
+
+                    // İlişkili TBL_Koli kayıtlarını alıp siliyoruz
+                    var existingKoliler = await _context.TBL_Koliler
+                        .Where(k => k.BaslikID == existingBaslik.BaslikID)
+                        .ToListAsync();
+                    _context.TBL_Koliler.RemoveRange(existingKoliler);
+
+                    // TBL_Baslik kaydını siliyoruz
+                    _context.TBL_Basliklar.Remove(existingBaslik);
+
+                    // Silme işlemlerini veritabanına yansıtıyoruz
+                    await _context.SaveChangesAsync();
+                }
+
+                // Yeni TBL_Baslik kaydı oluşturuluyor
+                TBL_Baslik tblBaslik = new TBL_Baslik
+                {
+                    Tipi = baslik.Tipi,
+                    Aciklama = baslik.Aciklama,
+                    MusteriID = baslik.MusteriID == -1 ? (long?)null : baslik.MusteriID,
+                    GonderimTarihi = baslik.GonderimTarihi,
+                    GonderiAdedi = baslik.GonderiAdedi,
+                    Kullanici = baslik.Kullanici,
+                    FirmaID = firmaID,
+                    SevkiyatAd = baslik.SevkiyatAd,
+                    PO_Number = baslik.PO_Number,
+                    CihazID = baslik.CihazID == -1 ? (long?)null : baslik.CihazID,
+                    KayitTarihi = DateTime.Now,
+                    SilindiMi = baslik.SilindiMi
+                };
+
                 await _context.AddAsync(tblBaslik);
                 await _context.SaveChangesAsync();
+
+                // Yeni TBL_Epc ve TBL_Koli kayıtlarının oluşturulması
+                var epcs = new List<TBL_Epc>();
+                var koliler = new Dictionary<long?, TBL_Koli>();
 
                 foreach (var item in baslik.EpcModels)
                 {
@@ -213,7 +243,7 @@ namespace LojiteksApi.Controllers
                         Beden = item.Beden,
                         KayitTarihi = DateTime.Now,
                         SilindiMi = item.SilindiMi,
-                        FirmaID = baslik.FirmaID == -1 ? (long?)null : baslik.FirmaID
+                        FirmaID = firmaID
                     };
 
                     if (epc.KoliId.HasValue)
@@ -227,11 +257,11 @@ namespace LojiteksApi.Controllers
                             var koli = new TBL_Koli
                             {
                                 KoliId = epc.KoliId,
-                                BaslikID = tblBaslik.BaslikID,  
+                                BaslikID = tblBaslik.BaslikID,
                                 KoliBarkod = "",
                                 Adet = 1,
                                 SilindiMi = false,
-                                FirmaID = baslik.FirmaID == -1 ? (long?)null : baslik.FirmaID,
+                                FirmaID = firmaID,
                                 KayitTarihi = DateTime.Now
                             };
                             koliler.Add(epc.KoliId, koli);
@@ -242,7 +272,6 @@ namespace LojiteksApi.Controllers
                 }
 
                 await _context.TBL_Epcler.AddRangeAsync(epcs);
-
                 await _context.TBL_Koliler.AddRangeAsync(koliler.Values);
                 await _context.SaveChangesAsync();
 
