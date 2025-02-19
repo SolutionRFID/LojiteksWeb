@@ -1,0 +1,230 @@
+﻿/*dtb cloud mavisi #009FE3*/
+.toast-body {
+    font-size: 1.25rem;
+}
+
+.toast-success {
+    background-color: #d4edda; /* Light green */
+    color: white;
+}
+
+.toast-danger {
+    background-color: #f8d7da; /* Light red */
+    color: white;
+}
+
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+.part-img {
+    width: 150px;
+    height: 150px;
+    margin-left: 5px;
+    border: 2px solid;
+}
+
+/*details*/
+.col-sm-2 {
+    color: black;
+    font-size: 1.1em;
+}
+
+/*secret*/
+.hidden {
+    display: none;
+}
+
+/*table*/
+/*print and home location height*/
+.custom-card td, th {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    vertical-align: middle;
+}
+
+.custom-card td {
+    border-bottom: 3px solid #E9E9E9;
+    max-width: 200px;
+    min-width: 50px;
+}
+
+.custom-card th {
+    background-color: #E9E9E9;
+    font-size: 1.1em;
+    z-index: 1;
+}
+
+.custom-card thead {
+    height: 40px;
+}
+
+.custom-card .action-buttons {
+    white-space: nowrap;
+}
+
+.table-container2 {
+    min-height: 250px;
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.tbl-loc {
+    border-collapse: collapse;
+    background-color: #fff;
+}
+    .tbl-loc td, th {
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-left: 1px solid #d9d9d9;
+        border-right: 1px solid #d9d9d9;
+        vertical-align: middle;
+    }
+
+    .tbl-loc th {
+        text-align: center;
+        font-size: 1.5em !important;
+        background-color: #009FE3;
+    }
+
+    .tbl-loc tbody tr:hover {
+        background-color: #009FE3;
+    }
+
+    .tbl-loc tbody tr {
+        font-size: 1.1em;
+    }
+
+        .tbl-loc tbody tr a {
+            color: black;
+            padding: 2%;
+        }
+
+            .tbl-loc tbody tr a:hover {
+                color: #009FE3;
+            }
+
+/*details list*/
+.list-group {
+    font-size: 16px;
+}
+
+.list-group-item span {
+    font-size: 14px;
+}
+
+/*home page img size*/
+.img-container {
+    width: 300px;
+    height: 300px;
+}
+
+.custom-button img {
+    width: 100%;
+    height: 100%;
+}
+
+.custom-button h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+@media (min-width: 576px) {
+    .img-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .custom-button h2 {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .img-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    .custom-button h2 {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .img-container {
+        width: 175px;
+        height: 175px;
+    }
+
+    .custom-button img {
+        width: 90%;
+        height: 90%;
+    }
+
+    .custom-button h2 {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .img-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    .custom-button h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
+
+#deleteModalLabel {
+    font-size: 2em
+}
+
+.delete-p {
+    font-size: 1.5em;
+}
+/*header table*/
+.fis-header-table th {
+    font-size: 1.3em !important;
+}
+
+.fis-header-table td {
+    font-size: 1em;
+}
+
+
+/*line table*/
+.fis-line-table th {
+    font-size: 1.3em !important;
+    border: 0px;
+}
+.fis-line-table td {
+    font-size: 1em;
+}
+.fis-line-table tr {
+    border: solid 2px lightgray;
+    border-left: 0px;
+    border-right: 0px;
+}
+    .fis-line-table tr:first-child {
+        border: 0px;
+    }

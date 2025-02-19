@@ -1,0 +1,351 @@
+﻿/*search clear area*/
+.clear-input {
+    position: absolute;
+    top: 50%;
+    right: 7%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+#searchBox {
+    padding-right: 15%; /* "X" düğmesi kadar ek bir boşluk bırak */
+    box-sizing: border-box; /* padding'in genişliğiyle birlikte genişliği koru */
+    height: 50px; /* İstenilen yükseklik değeri */
+    width: 200px;
+}
+
+    #searchBox:focus {
+        outline: none; /* Var olan varsayılan vurguyu kaldır */
+        border: 3px solid #FFC107; /* Mavi bir kenarlık ekleyerek vurgu oluştur */
+        box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); /* Hafif bir gölge efekti ekleyerek vurguyu artırabilirsiniz */
+    }
+
+/* Arama butonu için özel stil */
+.btn-search-lg {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 2px solid #FFC107; /* Primary renginde border kalınlığı */
+    border-radius: 50px; /* Yuvarlatılmış kenarlar için border radius */
+    padding: 8px 24px; /* Düğme içeriği ile border arasındaki boşluk */
+    font-size: 1.5em; /* Düğme metni boyutu */
+    height: 50px; /* İstenilen yükseklik değeri */
+    background-color: #fff; /* Düğme arka plan rengi */
+    color: #FFC107; /* Düğme metin rengi */
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; /* Geçiş efektleri */
+}
+
+    /* İkonu büyütme */
+    .btn-search-lg i.fas.fa-search {
+        font-size: 1em; /* İkon boyutunu ayarla */
+    }
+
+    .btn-search-lg:hover {
+        color: #000; /* Hover durumunda metin rengi */
+        background-color: #FFC107; /* Hover durumunda arka plan rengi */
+    }
+
+
+/* download link*/
+.download-link-container {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.download-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+    .download-link:hover {
+        color: black;
+        background-color: #0056b3;
+    }
+
+.custom-outline-danger-btn {
+    background-color: transparent;
+    border: 1px solid #dc3545 !important; /* Kenar rengi kırmızı */
+    color: #dc3545; /* Yazı rengi kırmızı */
+    border-radius: 0.5rem; /* Kenar yuvarlaklığı ayarlanabilir */
+    transition: background-color 0.5s, color 0.5s; /* Geçiş efektleri */
+}
+
+    .custom-outline-danger-btn:hover {
+        background-color: #dc3545; /* Üzerine gelince arka plan rengi kırmızı */
+        color: #fff; /* Yazı rengi beyaz */
+    }
+
+/* fixture index img
+*/
+
+
+.custom-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-custom {
+    width: 75%;
+    box-sizing: border-box;
+}
+
+/*Excel update button*/
+.custom-button2 {
+    background-color: #009EF7;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 24px;
+    border-radius: 8px;
+    margin: 10px auto;
+    cursor: pointer;
+    display: block;
+    width: 75%;
+}
+
+    .custom-button2:hover {
+        background-color: #007BB5;
+    }
+
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/*Home custom button ve resim*/
+.custom-button-home[disabled] {
+    opacity: 1;
+    pointer-events: none;
+}
+
+/*create button*/
+.btn-create-lg {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 2px solid #007bff; /* Primary renginde border kalınlığı */
+    border-radius: 50px; /* Yuvarlatılmış kenarlar için border radius */
+    padding: 8px 24px; /* Düğme içeriği ile border arasındaki boşluk */
+    font-size: 1.5em; /* Düğme metni boyutu */
+    height: 50px; /* İstenilen yükseklik değeri */
+    background-color: #fff; /* Düğme arka plan rengi */
+    color: #007bff; /* Düğme metin rengi */
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; /* Geçiş efektleri */
+    width: 200px;
+}
+
+    .btn-create-lg:hover {
+        color: #000; /* Hover durumunda metin rengi */
+        background-color: #007bff; /* Hover durumunda arka plan rengi */
+    }
+
+/*Excel download*/
+
+@media (min-width: 1080px) {
+    .create-download-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+}
+
+#wrap {
+    text-align: center;
+}
+
+.btn-slide2 {
+    position: relative;
+    display: inline-block;
+    height: 50px;
+    width: 200px;
+    line-height: 2.5;
+    padding: 0;
+    border-radius: 50px;
+    background: #ffffff;
+    border: 2px solid #F1416C;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+    .btn-slide2:hover {
+        background-color: #F1416C;
+    }
+
+        .btn-slide2:hover span.circle2 {
+            left: 100%;
+            margin-left: -45px;
+            background-color: white;
+            color: white;
+        }
+
+        .btn-slide2:hover span.circle2 {
+            color: #F1416C;
+        }
+
+        .btn-slide2:hover span.title2 {
+            left: 40px;
+            opacity: 0;
+        }
+
+        .btn-slide2:hover span.title-hover2 {
+            opacity: 1;
+            left: 40px;
+        }
+
+    .btn-slide2 span.circle2 {
+        display: block;
+        background-color: #F1416C;
+        color: #fff;
+        position: absolute;
+        float: left;
+        margin: 3px;
+        line-height: 42px;
+        height: 40px;
+        width: 40px;
+        top: 0;
+        left: 0;
+        transition: .5s;
+        border-radius: 50%;
+    }
+
+    .btn-slide2 span.circle2 {
+        background-color: #F1416C;
+    }
+
+    .btn-slide2 span.title2,
+    .btn-slide2 span.title-hover2 {
+        position: absolute;
+        left: 90px;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #F1416C;
+        transition: .5s;
+    }
+
+    .btn-slide2 span.title2,
+    .btn-slide2 span.title-hover2 {
+        color: #F1416C;
+        left: 30%;
+    }
+
+    .btn-slide2 span.title-hover2 {
+        left: 80px;
+        opacity: 0;
+    }
+
+    .btn-slide2 span.title-hover2 {
+        color: #fff;
+    }
+
+
+    /*Upload button*/
+#wrap2 {
+    text-align: center;
+}
+
+.btn-slide3 {
+    position: relative;
+    display: inline-block;
+    height: 50px;
+    width: 200px;
+    line-height: 2.5;
+    padding: 0;
+    border-radius: 50px;
+    background: #ffffff;
+    border: 2px solid purple;
+    margin-left: 10px;
+    transition: .5s;
+}
+
+    .btn-slide3:hover {
+        background-color: purple;
+    }
+
+        .btn-slide3:hover span.circle3 {
+            left: 100%;
+            margin-left: -45px;
+            background-color: white;
+            color: white;
+        }
+
+        .btn-slide3:hover span.circle3 {
+            color: purple;
+        }
+
+        .btn-slide3:hover span.title3 {
+            left: 40px;
+            opacity: 0;
+        }
+
+        .btn-slide3:hover span.title-hover3 {
+            opacity: 1;
+            left: 40px;
+        }
+
+    .btn-slide3 span.circle3 {
+        display: block;
+        background-color: purple;
+        color: #fff;
+        position: absolute;
+        float: left;
+        margin: 3px;
+        line-height: 42px;
+        height: 40px;
+        width: 40px;
+        top: 0;
+        left: 0;
+        transition: .5s;
+        border-radius: 50%;
+    }
+
+    .btn-slide2 span.circle3 {
+        background-color: purple;
+    }
+
+    .btn-slide3 span.title3,
+    .btn-slide3 span.title-hover3 {
+        position: absolute;
+        left: 90px;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 1.5em;
+        font-weight: 600;
+        color: purple;
+        transition: .5s;
+    }
+
+    .btn-slide3 span.title3,
+    .btn-slide3 span.title-hover3 {
+        color: purple;
+        left: 30%;
+    }
+
+    .btn-slide3 span.title-hover3 {
+        left: 80px;
+        opacity: 0;
+    }
+
+    .btn-slide3 span.title-hover3 {
+        color: #fff;
+    }
