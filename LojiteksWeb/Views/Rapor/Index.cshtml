@@ -1,0 +1,178 @@
+﻿@model TBL_Baslik
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="card custom-card">
+    <div class="card-body fs-6 py-15 px-10 py-lg-10 text-gray-700">
+        <div class="row mb-5">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <div class="create-download-container">
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="searchBox" class="form-control rounded-pill" placeholder="Search" oninput="searchGrid()">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-2 mb-5">
+                <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" id="startDate" name="startDate" class="form-control">
+                    <span id="startDateError" class="text-danger" style="display:none;">The date range should be maximum 2 months.</span>
+                </div>
+            </div>
+            <div class="col-md-2 mb-5">
+                <div class="form-group">
+                    <label class="form-label">Finish Date</label>
+                    <input type="date" id="finishDate" name="finishDate" class="form-control">
+                    <span id="finishDateError" class="text-danger" style="display:none;">The date range should be maximum 2 months.</span>
+                </div>
+            </div>
+        </div>
+        <div id="indexGrid" style="height: 800px; width:100%;" class="ag-theme-alpine"></div>
+    </div>
+</div>
+<style>
+    .icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .large-icon {
+        font-size: 2em;
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('#startDate, #finishDate').on('change', function () {
+                validateDateRange();
+                updateGridData();
+            });
+        });
+
+        function validateDateRange() {
+            var startDate = new Date($('#startDate').val());
+            var finishDate = new Date($('#finishDate').val());
+
+            if ((finishDate - startDate) / (1000 * 60 * 60 * 24) > 60) {
+                $('#startDateError').show();
+                $('#finishDateError').show();
+            } else {
+                $('#startDateError').hide();
+                $('#finishDateError').hide();
+            }
+        }
+
+        function updateGridData() {
+            var startDate = $('#startDate').val() || null;
+            var finishDate = $('#finishDate').val() || null;
+
+            gridOptions.api.setDatasource({
+                getRows: function (params) {
+                    var page = Math.floor(params.startRow / gridOptions.paginationPageSize) + 1;
+                    var sortModel = params.sortModel.length > 0 ? params.sortModel[0] : { colId: 'GonderimTarihi', sort: 'asc' };
+                    var filterValue = document.getElementById('searchBox').value || '';
+
+                    var url = `/Rapor/GetRapor?page=${page}&pageSize=${gridOptions.paginationPageSize}&sortColumn=${sortModel.colId}&sortOrder=${sortModel.sort}&filter=${encodeURIComponent(filterValue)}&startDate=${startDate}&finishDate=${finishDate}`;
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            var lastPage = data.length < gridOptions.paginationPageSize;
+                            params.successCallback(data, lastPage ? params.startRow + data.length : undefined);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data: ', error);
+                            params.failCallback();
+                        });
+                }
+            });
+        }
+
+        var gridOptions = {
+            columnDefs: [
+                {
+                    headerName: "Details",
+                    field: "baslikID",
+                    cellRenderer: function (params) {
+                        var iconContainer = document.createElement('div');
+                        iconContainer.classList.add('icon-container');
+
+                        var icon = document.createElement('i');
+                        icon.setAttribute('class', 'las la-info large-icon');
+                        iconContainer.appendChild(icon);
+
+                        iconContainer.addEventListener('click', function () {
+                            window.location.href = '/rapor/detail?id=' + params.data.baslikID;
+                        });
+                        return iconContainer;
+                    }
+                },
+                { field: "baslikID", headerName: "Record No" },
+                { field: "aciklama", headerName: "Description" },
+                { field: "pO_Number", headerName: "PO" },
+                {
+                    field: "gonderimTarihi", headerName: "Shipment Date",
+                    valueFormatter: function (params) {
+                        if (!params.value) return '';
+                        var date = new Date(params.value);
+                        return date.toLocaleDateString();
+                    }
+                },
+                { field: "gonderiAdedi", headerName: "Shipment Quantity" },
+                { field: "kullanici", headerName: "User" },
+                { field: "firma", headerName: "Company" },
+
+            ],
+
+            defaultColDef: {
+                sortable: true,
+                resizable: true,
+                flex: 1
+            },
+            rowModelType: 'infinite',
+            paginationPageSize: 100,
+            cacheBlockSize: 100,
+            infiniteInitialRowCount: 1,
+            maxBlocksInCache: 1000,
+            datasource: {
+                getRows: function (params) {
+                    var page = Math.floor(params.startRow / gridOptions.paginationPageSize) + 1;
+                    var sortModel = params.sortModel.length > 0 ? params.sortModel[0] : { colId: 'baslikID', sort: 'asc' };
+                    var filterValue = document.getElementById('searchBox') ? document.getElementById('searchBox').value : '';
+
+                    fetch(`/Rapor/GetRapor?page=${page}&pageSize=${gridOptions.paginationPageSize}&sortColumn=${sortModel.colId}&sortOrder=${sortModel.sort}&filter=${filterValue}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var lastPage = data.length < gridOptions.paginationPageSize;
+                            params.successCallback(data, lastPage ? params.startRow + data.length : undefined);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data: ', error);
+                            params.failCallback();
+                        });
+                }
+            }
+        };
+
+        function initializeGrid() {
+            new agGrid.Grid(document.getElementById('indexGrid'), gridOptions);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeGrid();
+        });
+
+        function searchGrid() {
+            gridOptions.api.setDatasource(gridOptions.datasource);
+        }
+    </script>
+}

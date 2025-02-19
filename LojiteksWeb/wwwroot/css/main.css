@@ -1,0 +1,64 @@
+﻿.custom-card {
+    min-height: 300px;
+    max-height: 2000px;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.custom-card-mini {
+    min-height: 300px;
+    max-height: 2000px;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+}
+.navbar {
+    font-size: 18px;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.footer {
+    margin-top: auto;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+.active {
+    color: #0068b3 !important;
+}
+
+.nav-link > a:hover {
+    color: #0068b3 !important;
+}
+
+/**/
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.logout-button {
+    background-color: white; /* Arka planı beyaz yapar */
+    border: none; /* Kenarlık kaldırır */
+    cursor: pointer;
+    display: inline-block;
+}

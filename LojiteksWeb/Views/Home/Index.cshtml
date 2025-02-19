@@ -1,0 +1,316 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .custom-title {
+        font-size: 1.5rem;
+    }
+
+    .custom-text {
+        font-size: 2rem;
+    }
+
+    hr {
+        border-top: 3px solid #000;
+    }
+
+    .blue-title {
+        color: #2196F3;
+    }
+
+    .gray-title {
+        color: #858796;
+    }
+
+    .green-title {
+        color: #65C88A;
+    }
+
+    .yellow-title {
+        color: #F6C23E;
+    }
+</style>
+
+<div class="row text-center m-5">
+    <div class="col-md-3 mb-3">
+        <a asp-controller="Rapor" asp-action="Index">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title custom-title">
+                        TOTAL ORDER COUNT
+                    </h5>
+                    <p class="card-text custom-text">@ViewBag.Counts.OrderCount</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 mb-3">
+        <a asp-controller="Box" asp-action="Index">
+
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title custom-title">
+                        TOTAL BOX COUNT
+                    </h5>
+                    <p class="card-text custom-text">@ViewBag.Counts.KoliCount</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title custom-title">
+                    TOTAL EPC COUNT
+                </h5>
+                <p class="card-text custom-text">@ViewBag.Counts.EpcCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <a asp-controller="Cihaz" asp-action="Index">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title custom-title">
+                        TOTAL DEVICE COUNT
+                    </h5>
+                    <p class="card-text custom-text">@ViewBag.Counts.CihazCount</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="chart text-center">
+    <div class="row m-5">
+        <div class="col-md-6">
+            <div class="card p-5">
+                <h5 class="card-title custom-title blue-title">
+                    Shipments Per Month (Last 6 Months)
+                </h5>
+                <hr />
+                <canvas id="barMonthlyChart" width="400" height="200"></canvas>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="card p-5">
+                <h5 class="card-title custom-title blue-title">
+                    Shipments Per Customer (Last 6 Months)
+                </h5>
+                <hr />
+                <canvas id="barCustomerChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row m-5">
+        <div class="col-md-4">
+            <div class="card p-5 d-flex flex-column justify-content-between" style="height: 100%;">
+                <div class="text-center">
+                    <h5 class="card-title custom-title blue-title mb-3">
+                        Minimum License Time
+                    </h5>
+                </div>
+                <hr class="w-100" />
+                <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+                    <h5 class="card-title custom-text text-center gray-title mb-5">
+                        Total Licence Count
+                    </h5>
+                    <h5 class="card-title custom-text text-center green-title mb-5">
+                        @ViewBag.Licence.LicenceCount
+                    </h5>
+                    <h5 class="card-title custom-text text-center gray-title mb-5">
+                        Closest Licence Ending Time
+                    </h5>
+                    <h5 class="card-title custom-text text-center yellow-title mb-5">
+                        @ViewBag.Licence.ClosestLicenceEndDate?.ToShortDateString()
+                    </h5>
+                    <h5 class="card-title custom-text text-center gray-title mb-5">
+                        Device Of That Licence
+                    </h5>
+                    <h5 class="card-title custom-text text-center yellow-title mb-5">
+                        @ViewBag.Licence.Device
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-5">
+                <h5 class="card-title custom-title blue-title">
+                    Shipments Per Month (Last 6 Months)
+                </h5>
+                <hr />
+                <canvas id="pieMonthlyChart" height="200"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-5">
+                <h5 class="card-title custom-title blue-title">
+                    Shipments EPC Per Customer (Last 6 Months)
+                </h5>
+                <hr />
+                <canvas id="pieCustomerChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        //aylık sipariş adeti son 6 ay BAR
+        var drawBarMonthlyChart = document.getElementById('barMonthlyChart').getContext('2d');
+        var barMonthlyChart = new Chart(drawBarMonthlyChart, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.LabelsBar)),
+                datasets: [{
+                    label: 'Shipments',
+                    data: @Html.Raw(Json.Serialize(ViewBag.DataBar)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        //son 6 aylık sipariş adeti müşteri bazlı BAR
+        var drawBarCustomerChart = document.getElementById('barCustomerChart').getContext('2d');
+        var barCustomerChart = new Chart(drawBarCustomerChart, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.LabelCustomerBar)),
+                datasets: [{
+                    label: 'Customers',
+                    data: @Html.Raw(Json.Serialize(ViewBag.DataCustomerBar)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        //aylık sipariş adeti son 6 ay pasta
+        var drawPieMonthlyChart = document.getElementById('pieMonthlyChart').getContext('2d');
+        var pieMonthlyChart = new Chart(drawPieMonthlyChart, {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.LabelsBar)),
+                datasets: [{
+                    label: 'Shipments',
+                    data: @Html.Raw(Json.Serialize(ViewBag.DataBar)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        //son 6 aylık epc adeti müşteri bazlı pasta
+        var drawPieCustomerChart = document.getElementById('pieCustomerChart').getContext('2d');
+        var pieCustomerChart = new Chart(drawPieCustomerChart, {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.LabelCustomerPasta)),
+                datasets: [{
+                    label: 'EPC Count',
+                    data: @Html.Raw(Json.Serialize(ViewBag.dataCustomerPasta)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

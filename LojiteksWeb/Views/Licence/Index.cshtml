@@ -1,0 +1,126 @@
+﻿@model IEnumerable<TBL_Lisans>
+@using LojiteksWeb.Extensions
+
+@{
+    ViewData["Title"] = "Licences";
+}
+
+<div class="card custom-card">
+    <div class="card-body fs-6 py-15 px-10 py-lg-10 px-lg-10 text-gray-700">
+        <div class="mb-5">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <div class="create-download-container">
+                    <a class="btn-create-lg mb-3" asp-action="Create">Create</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="searchBox" class="form-control rounded-pill" placeholder="Search" oninput="searchGrid()">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div id="indexGrid" style="height: 800px; width:100%;" class="ag-theme-alpine"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="deleteModalLabel">Are you sure you want to delete it?</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="delete-p"><strong>Device:</strong> <span id="cihaz"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form id="deleteForm" asp-action="Delete" method="post">
+                    <input type="hidden" id="lisansID" name="id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        var columnDefs = [
+            {
+                cellRenderer: function (params) {
+                    if (!params.data || params.data.lisansID === undefined) {
+                        return '';
+                    }
+                    var lisansID = params.data.lisansID;
+                    var cihaz = params.data.cihaz;
+                    var actionHTML = '<div class="action-buttons text-center">' +
+                        '<a href="/Licence/Edit/' + lisansID + '" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">' +
+                        '<i class="las la-edit fs-2"></i>' +
+                        '</a>' +
+                        '<a href="javascript:void(0);" onclick="openDeleteModal(' + lisansID + ', \'' + cihaz + '\')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">' +
+                        '<i class="las la-trash fs-2"></i>' +
+                        '</a>' +
+                        '</div>';
+                    return actionHTML;
+                }
+            },
+            { field: "lisansID", headerName: "Record No" },
+            { field: "lisansTip", headerName: "Licence Type" },
+            { field: "cihaz", headerName: "cihaz" },
+            { field: "kayitTarih", headerName: "Record Date" },
+            { field: "baslangicTarih", headerName: "Start Date" },
+            { field: "bitisTarih", headerName: "Finish Date" },
+            { field: "firma", headerName: "Company" },
+        ];
+
+        var gridOptions = {
+            columnDefs: columnDefs,
+            defaultColDef: {
+                sortable: true,
+                resizable: true,
+                flex: 1
+            },
+            rowModelType: 'infinite',
+            paginationPageSize: 100,
+            cacheBlockSize: 100,
+            infiniteInitialRowCount: 1,
+            maxBlocksInCache: 1000,
+            datasource: {
+                getRows: function (params) {
+                    var page = Math.floor(params.startRow / gridOptions.paginationPageSize) + 1;
+                    var sortModel = params.sortModel.length > 0 ? params.sortModel[0] : { colId: 'lisansID', sort: 'asc' };
+                    var filterValue = document.getElementById('searchBox') ? document.getElementById('searchBox').value : '';
+
+                    fetch(`/Licence/GetLicence?page=${page}&pageSize=${gridOptions.paginationPageSize}&sortColumn=${sortModel.colId}&sortOrder=${sortModel.sort}&filter=${filterValue}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var lastPage = data.length < gridOptions.paginationPageSize;
+                            params.successCallback(data, lastPage ? params.startRow + data.length : undefined);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data: ', error);
+                            params.failCallback();
+                        });
+                }
+            }
+        };
+
+        function initializeGrid() {
+            new agGrid.Grid(document.getElementById('indexGrid'), gridOptions);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeGrid();
+        });
+
+        function searchGrid() {
+            gridOptions.api.setDatasource(gridOptions.datasource);
+        }
+
+        function openDeleteModal(lisansID, cihaz) {
+            document.getElementById('lisansID').value = lisansID;
+            document.getElementById('cihaz').innerText = cihaz;
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        }
+    </script>
+}

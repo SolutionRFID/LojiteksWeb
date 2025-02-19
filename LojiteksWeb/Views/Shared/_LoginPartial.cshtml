@@ -1,0 +1,27 @@
+﻿<ul class="navbar-nav flex-column">
+    <li class="nav-item">
+        <span style="padding-left:6%;">
+            <a asp-controller="Profile" asp-action="Index" asp-route-username="@User.Identity.Name">
+                 @User.Identity.Name.ToUpper()
+            </a>
+        </span>
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Profile" asp-action="Index" asp-route-username="@User.Identity.Name" class="menu-link logout-button">
+            <span class="menu-icon">
+                <i class="fa fa-user"></i>
+            </span>
+            <span class="menu-title">Profile</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-action="Logout" asp-controller="Account" asp-area="" asp-route-returnUrl="@Url.Action("Login", "Account", new { area = "" })">
+            <button id="logout" type="submit" class="menu-link logout-button">
+                <span class="menu-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </span>
+                <span class="menu-title">Log out</span>
+            </button>
+        </form>
+    </li>
+</ul>

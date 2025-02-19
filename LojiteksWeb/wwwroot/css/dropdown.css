@@ -1,0 +1,114 @@
+﻿.dropdownModule {
+    display: none;
+}
+
+@media only screen and (max-width: 991px) {
+    .dropdownModule {
+        display: block;
+    }
+}
+
+/* Flag CSS */
+.dropdown {
+    position: relative;
+}
+
+.language {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+}
+
+.dropdown:hover .language {
+    display: block;
+}
+
+.flag-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.selected {
+    font-weight: bold;
+    color: blue;
+}
+
+.language li {
+    list-style-type: none;
+    margin-bottom: 6px; /* Yazı ile bayrak arasına 6 piksel boşluk bırakır */
+}
+/*module css*/
+.dropdownModule {
+    position: relative;
+}
+
+.module {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+}
+
+.dropdownModule:hover .module {
+    display: block;
+}
+
+.module-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.selected {
+    font-weight: bold;
+    color: blue;
+}
+
+.module li {
+    list-style-type: none;
+    margin-bottom: 6px;
+}
+
+/*message css*/
+.dropdownMessage {
+    position: relative;
+}
+
+.message {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px;
+}
+
+.dropdownMessage:hover .message {
+    display: block;
+}
+
+.message-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.selected {
+    font-weight: bold;
+    color: blue;
+}
+
+.message li {
+    list-style-type: none;
+    margin-bottom: 6px; /* Yazı ile bayrak arasına 6 piksel boşluk bırakır */
+}
+
+.notification-count {
+    color: red;
+}

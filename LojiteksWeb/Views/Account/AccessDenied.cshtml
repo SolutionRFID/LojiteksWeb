@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<style>
+    body-access {
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+    }
+
+    .container-access-denied {
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    h1 {
+        font-size: 5em;
+    }
+
+    h2, h3 {
+        font-size: 3em;
+    }
+
+    .btn-access i {
+        font-size: 2em;
+        margin: 20%; 
+    }
+
+    .btn-access {
+        font-size: 2em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 20%;
+        border-radius: 10px; 
+    }
+</style>
+<div class="body-access">
+    <div class="container-access-denied">
+        <h1>Oops!</h1>
+        <h2>Access Denied</h2>
+        <div>
+            <h3>You do not have access to this page.</h3>
+        </div>
+        <div class="row mt-5">
+            <div class="col col-md-12">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-access">
+                    <i class="las la-home"></i>
+                    Back to Home Page
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

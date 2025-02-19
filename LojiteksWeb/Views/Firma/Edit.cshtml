@@ -1,0 +1,31 @@
+﻿@model TBL_Firma
+
+@{
+    ViewData["Title"] = "Edit Company";
+}
+
+<div class="card">
+    <div class="card-body fs-6 py-15 px-10 py-lg-10 px-lg-10 text-gray-700">
+        <form asp-action="Edit" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FirmaID" />
+            <div class="col col-md-6">
+                <div class="form-group mb-5">
+                    <label asp-for="Unvan" class="form-label"></label>
+                    <input asp-for="Unvan" class="form-control" />
+                    <span asp-validation-for="Unvan" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a class="btn btn-primary" asp-action="Index"><i class="fas fa-arrow-left"></i> Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

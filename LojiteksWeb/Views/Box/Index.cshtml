@@ -1,0 +1,109 @@
+﻿@model IEnumerable<TBL_Koli>
+@using LojiteksWeb.Extensions
+
+@{
+    ViewData["Title"] = "Boxes";
+}
+
+<div class="card custom-card">
+    <div class="card-body fs-6 py-15 px-10 py-lg-10 px-lg-10 text-gray-700">
+        <div class="mb-5">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <div class="search-container">
+                    <input type="text" id="searchBox" class="form-control rounded-pill" placeholder="Search" oninput="searchGrid()">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div id="indexGrid" style="height: 800px; width:100%;" class="ag-theme-alpine"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .large-icon {
+        font-size: 2em;
+    }
+</style>
+@section Scripts {
+    <script type="text/javascript">
+        var gridOptions = {
+            columnDefs: [
+                {
+                    headerName: "Details",
+                    field: "koliID",
+                    cellRenderer: function (params) {
+                        var iconContainer = document.createElement('div');
+                        iconContainer.classList.add('icon-container');
+
+                        var icon = document.createElement('i');
+                        icon.setAttribute('class', 'las la-info large-icon');
+                        iconContainer.appendChild(icon);
+
+                        iconContainer.addEventListener('click', function () {
+                            window.location.href = '/box/details?id=' + params.data.koliID;
+                        });
+                        return iconContainer;
+                    }
+                },
+                { field: "koliID", headerName: "Record No" },
+                { field: "koliBarkod", headerName: "Box Barcode" },
+                { field: "adet", headerName: "Quantity" },
+                { field: "firma", headerName: "Company" },
+                {
+                    field: "kayitTarihi", headerName: "Record Date",
+                    valueFormatter: function (params) {
+                        if (!params.value) return '';
+                        var date = new Date(params.value);
+                        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    }
+                }],
+            defaultColDef: {
+                sortable: true,
+                resizable: true,
+                flex: 1
+            },
+            rowModelType: 'infinite',
+            paginationPageSize: 100,
+            cacheBlockSize: 100,
+            infiniteInitialRowCount: 1,
+            maxBlocksInCache: 1000,
+            datasource: {
+                getRows: function (params) {
+                    var page = Math.floor(params.startRow / gridOptions.paginationPageSize) + 1;
+                    var sortModel = params.sortModel.length > 0 ? params.sortModel[0] : { colId: 'musteriID', sort: 'asc' };
+                    var filterValue = document.getElementById('searchBox') ? document.getElementById('searchBox').value : '';
+
+                    fetch(`/Box/GetBox?page=${page}&pageSize=${gridOptions.paginationPageSize}&sortColumn=${sortModel.colId}&sortOrder=${sortModel.sort}&filter=${filterValue}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var lastPage = data.length < gridOptions.paginationPageSize;
+                            params.successCallback(data, lastPage ? params.startRow + data.length : undefined);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data: ', error);
+                            params.failCallback();
+                        });
+                }
+            }
+        };
+
+        function initializeGrid() {
+            new agGrid.Grid(document.getElementById('indexGrid'), gridOptions);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeGrid();
+        });
+
+        function searchGrid() {
+            gridOptions.api.setDatasource(gridOptions.datasource);
+        }
+    </script>
+}
