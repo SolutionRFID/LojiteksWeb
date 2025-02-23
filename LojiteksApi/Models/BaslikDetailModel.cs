@@ -15,6 +15,5 @@
         public string? SevkiyatAd { get; set; } = "";
         public string? PO_Number { get; set; } = "";
         public long? CihazID { get; set; } = 0;
-        public List<EpcModel> EpcModels { get; set; } = new List<EpcModel>();
     }
 }

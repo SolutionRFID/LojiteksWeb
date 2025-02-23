@@ -177,39 +177,38 @@ namespace LojiteksApi.Controllers
         [HttpPost("CreateBaslik")]
         public async Task<IActionResult> CreateBaslik(BaslikDetailModel baslik)
         {
-            var responseMessage = new ResponseMessage();
-
+            var response = new ResponseMessage();
             try
             {
-                // Benzersiz olarak belirleyebileceğiniz kriteri kullanarak mevcut kaydı arıyoruz.
-                // Örneğin: FirmaID ve GonderimTarihi üzerinden
+                // FirmaID değerini kontrol ediyoruz
                 var firmaID = baslik.FirmaID == -1 ? (long?)null : baslik.FirmaID;
-                var existingBaslik = await _context.Set<TBL_Baslik>()
+
+                // FirmaID ve GönderimTarihi kriterlerine göre mevcut kayıt var mı kontrol ediyoruz
+                var existingHeader = await _context.Set<TBL_Baslik>()
                     .FirstOrDefaultAsync(b => b.FirmaID == firmaID && b.GonderimTarihi == baslik.GonderimTarihi);
 
-                if (existingBaslik != null)
+                if (existingHeader != null)
                 {
                     // İlişkili TBL_Epc kayıtlarını alıp siliyoruz
                     var existingEpcs = await _context.TBL_Epcler
-                        .Where(e => e.BaslikID == existingBaslik.BaslikID)
+                        .Where(e => e.BaslikID == existingHeader.BaslikID)
                         .ToListAsync();
                     _context.TBL_Epcler.RemoveRange(existingEpcs);
 
                     // İlişkili TBL_Koli kayıtlarını alıp siliyoruz
                     var existingKoliler = await _context.TBL_Koliler
-                        .Where(k => k.BaslikID == existingBaslik.BaslikID)
+                        .Where(k => k.BaslikID == existingHeader.BaslikID)
                         .ToListAsync();
                     _context.TBL_Koliler.RemoveRange(existingKoliler);
 
-                    // TBL_Baslik kaydını siliyoruz
-                    _context.TBL_Basliklar.Remove(existingBaslik);
+                    // Eski baslığı siliyoruz
+                    _context.TBL_Basliklar.Remove(existingHeader);
 
-                    // Silme işlemlerini veritabanına yansıtıyoruz
                     await _context.SaveChangesAsync();
                 }
 
-                // Yeni TBL_Baslik kaydı oluşturuluyor
-                TBL_Baslik tblBaslik = new TBL_Baslik
+                // Yeni baslık kaydı oluşturuluyor
+                TBL_Baslik newHeader = new TBL_Baslik
                 {
                     Tipi = baslik.Tipi,
                     Aciklama = baslik.Aciklama,
@@ -225,69 +224,27 @@ namespace LojiteksApi.Controllers
                     SilindiMi = baslik.SilindiMi
                 };
 
-                await _context.AddAsync(tblBaslik);
+                await _context.AddAsync(newHeader);
                 await _context.SaveChangesAsync();
 
-                // Yeni TBL_Epc ve TBL_Koli kayıtlarının oluşturulması
-                var epcs = new List<TBL_Epc>();
-                var koliler = new Dictionary<long?, TBL_Koli>();
+                // Response'a insert edilen baslığın numarasını (BaslikID) ekliyoruz
+                response.isSuccess = true;
+                response.StatusCode = 200;
+                response.Message = "Baslık başarıyla oluşturuldu.";
+                response.Data = newHeader.BaslikID; // Oluşan baslığın numarası
 
-                foreach (var item in baslik.EpcModels)
-                {
-                    var epc = new TBL_Epc
-                    {
-                        BaslikID = tblBaslik.BaslikID,
-                        KoliId = item.KoliId == -1 ? (long?)null : item.KoliId,
-                        Epc = item.Epc,
-                        Upc = item.Upc,
-                        Beden = item.Beden,
-                        KayitTarihi = DateTime.Now,
-                        SilindiMi = item.SilindiMi,
-                        FirmaID = firmaID
-                    };
-
-                    if (epc.KoliId.HasValue)
-                    {
-                        if (koliler.ContainsKey(epc.KoliId))
-                        {
-                            koliler[epc.KoliId].Adet++;
-                        }
-                        else
-                        {
-                            var koli = new TBL_Koli
-                            {
-                                KoliId = epc.KoliId,
-                                BaslikID = tblBaslik.BaslikID,
-                                KoliBarkod = "",
-                                Adet = 1,
-                                SilindiMi = false,
-                                FirmaID = firmaID,
-                                KayitTarihi = DateTime.Now
-                            };
-                            koliler.Add(epc.KoliId, koli);
-                        }
-                    }
-
-                    epcs.Add(epc);
-                }
-
-                await _context.TBL_Epcler.AddRangeAsync(epcs);
-                await _context.TBL_Koliler.AddRangeAsync(koliler.Values);
-                await _context.SaveChangesAsync();
-
-                responseMessage.isSuccess = true;
-                responseMessage.StatusCode = 200;
-                responseMessage.Message = $"{tblBaslik.BaslikID}";
-                return Ok(responseMessage);
+                return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                responseMessage.isSuccess = false;
-                responseMessage.StatusCode = 400;
-                responseMessage.Message = e.ToString();
-                return Ok(responseMessage);
+                response.isSuccess = false;
+                response.StatusCode = 400;
+                response.Message = ex.Message;
+                return BadRequest(response);
             }
         }
+
+        
 
 
         [HttpPost("UpdateBaslik")]
