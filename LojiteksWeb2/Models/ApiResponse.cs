@@ -1,4 +1,4 @@
-﻿namespace Skote.Models
+﻿namespace LojiteksWeb.Models
 {
     public class ApiResponse<T>
     {

@@ -1,7 +1,7 @@
-﻿using Skote.Models;
+﻿using LojiteksWeb.Models;
 using System.Threading.Tasks;
 
-namespace LojiteksWeb2.Services
+namespace LojiteksWeb.Services
 {
     public interface IAuthApiService
     {

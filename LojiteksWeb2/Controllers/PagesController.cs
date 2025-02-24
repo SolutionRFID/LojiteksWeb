@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Skote.Controllers
+namespace LojiteksWeb.Controllers
 {
     public class PagesController : Controller
     {

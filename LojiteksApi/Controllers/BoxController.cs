@@ -113,5 +113,77 @@ namespace LojiteksApi.Controllers
                 return Ok(responseMessage);
             }
         }
+
+        [HttpGet("GetBox/{titleId}")]
+        public async Task<IActionResult> GetBox(long titleId)
+        {
+            var responseMessage = new ResponseMessage();
+            try
+            {
+                // Öncelikle verilen titleId'ye ait baslık kaydını getiriyoruz.
+                var box = await _context.TBL_Basliklar
+                    .FirstOrDefaultAsync(b => b.BaslikID == titleId);
+
+                if (box == null)
+                {
+                    responseMessage.isSuccess = false;
+                    responseMessage.StatusCode = 404;
+                    responseMessage.Message = "Baslık bulunamadı.";
+                    return NotFound(responseMessage);
+                }
+
+                // İlgili EPC kayıtlarını getiriyoruz.
+                var epcs = await _context.TBL_Epcler
+                    .Where(e => e.BaslikID == titleId)
+                    .ToListAsync();
+
+                // Gelen verileri, önceden tanımlı BoxDetailModel DTO'suna eşliyoruz.
+                // Örnek DTO; ihtiyaçlarınıza göre ek alanlar ekleyebilirsiniz.
+                var boxDetail = new BoxDetailModel
+                {
+                    TitleID = box.BaslikID,
+                    // Baslık ile ilgili diğer alanları da ekleyebilirsiniz, örn:
+                    // Tipi = box.Tipi,
+                    // Aciklama = box.Aciklama,
+
+                    // EPC kayıtlarını DTO içindeki listeye dönüştürüyoruz.
+                    EpcModels = epcs.Select(e => new EpcModel
+                    {
+                        // Eğer KoliId değeri yoksa -1 olarak atayabiliriz.
+                        KoliId = e.KoliId.HasValue ? e.KoliId : -1,
+                        Epc = e.Epc,
+                        Upc = e.Upc,
+                        Beden = e.Beden,
+                        SilindiMi = e.SilindiMi,
+                        KayitTarihi = e.KayitTarihi,
+                        FirmaID = e.FirmaID,
+                        BaslikNo= e.BaslikID
+                    }).ToList(),
+
+                    // Eğer BoxDetailModel içinde koli bilgisi de eklemek istiyorsanız,
+                    // aşağıdaki gibi bir dönüştürme yapabilirsiniz (örneğin KoliModels adlı liste varsa):
+                    // KoliModels = koliler.Select(k => new KoliModel
+                    // {
+                    //     KoliId = k.KoliId,
+                    //     Adet = k.Adet,
+                    //     // diğer alanlar...
+                    // }).ToList()
+                };
+
+                responseMessage.isSuccess = true;
+                responseMessage.StatusCode = 200;
+                responseMessage.Data = boxDetail;
+                responseMessage.Message = "Box detayları başarıyla getirildi.";
+                return Ok(responseMessage);
+            }
+            catch (Exception ex)
+            {
+                responseMessage.isSuccess = false;
+                responseMessage.StatusCode = 500;
+                responseMessage.Message = ex.Message;
+                return StatusCode(500, responseMessage);
+            }
+        }
+
     }
 }

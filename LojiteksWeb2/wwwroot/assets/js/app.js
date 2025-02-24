@@ -209,6 +209,7 @@ File: Main Js File
 
     function initPreloader() {
         $(window).on('load', function () {
+            console.log("Window fully loaded.");
             $('#status').fadeOut();
             $('#preloader').delay(350).fadeOut('slow');
         });

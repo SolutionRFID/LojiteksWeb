@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Skote.Models;
-using Skote.Services;
+using LojiteksWeb.Models;
+using LojiteksWeb.Services;
 using System.Threading.Tasks;
 
 public class AuthController : Controller

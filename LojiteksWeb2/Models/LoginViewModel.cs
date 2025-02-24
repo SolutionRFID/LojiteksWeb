@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Skote.Models
+namespace LojiteksWeb.Models
 {
     public class LoginViewModel
     {

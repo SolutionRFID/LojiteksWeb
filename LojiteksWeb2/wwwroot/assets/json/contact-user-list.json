@@ -5,7 +5,7 @@
         "nickname": "DM",
         "userName": "David McHenry",
         "designation": "UI/UX Designer",
-        "email": "david@skote.com",
+        "email": "david@LojiteksWeb.com",
         "tags": ["Photoshop", "illustrator"],
         "projects": "125"
     },
@@ -14,7 +14,7 @@
         "memberImg": "assets/images/users/avatar-2.jpg",
         "userName": "Frank Kirk",
         "designation": "Frontend Developer",
-        "email": "frank@skote.com",
+        "email": "frank@LojiteksWeb.com",
         "tags": ["Photoshop", "Html", "Css", "Javascript"],
         "projects": "132"
     },
@@ -23,7 +23,7 @@
         "memberImg": "assets/images/users/avatar-3.jpg",
         "userName": "Rafael Morales",
         "designation": "Backend Developer",
-        "email": "Rafael@skote.com",
+        "email": "Rafael@LojiteksWeb.com",
         "tags": ["Php", "Java", "Python"],
         "projects": "112"
     },
@@ -33,7 +33,7 @@
         "nickname": "ME",
         "userName": "Mark Ellison",
         "designation": "Full Stack Developer",
-        "email": "mark@skote.com",
+        "email": "mark@LojiteksWeb.com",
         "tags": ["Ruby", "Php"],
         "projects": "121"
     },
@@ -42,7 +42,7 @@
         "memberImg": "assets/images/users/avatar-4.jpg",
         "userName": "Minnie Walter",
         "designation": "Frontend Developer",
-        "email": "minnie@skote.com",
+        "email": "minnie@LojiteksWeb.com",
         "tags": ["Html", "Css", "Javascript"],
         "projects": "145"
     },
@@ -51,7 +51,7 @@
         "memberImg": "assets/images/users/avatar-5.jpg",
         "userName": "Shirley Smith",
         "designation": "UI/UX Designer",
-        "email": "shirley@skote.com",
+        "email": "shirley@LojiteksWeb.com",
         "tags": ["Photoshop", "illustrator"],
         "projects": "136"
     },
@@ -61,7 +61,7 @@
         "nickname": "JS",
         "userName": "John Santiago",
         "designation": "Full Stack Developer",
-        "email": "john@skote.com",
+        "email": "john@LojiteksWeb.com",
         "tags": ["Ruby", "Php"],
         "projects": "125"
     },
@@ -70,7 +70,7 @@
         "memberImg": "assets/images/users/avatar-6.jpg",
         "userName": "Colin Melton",
         "designation": "Backend Developer",
-        "email": "colin@skote.com",
+        "email": "colin@LojiteksWeb.com",
         "tags": ["Php", "Java", "Python"],
         "projects": "136"
     }

@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Skote.Models;
+using LojiteksWeb.Models;
 using System.Text.Json;
 
-namespace Skote.Services
+namespace LojiteksWeb.Services
 {
     public class AuthApiService
     {

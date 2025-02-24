@@ -1,4 +1,4 @@
-﻿@model Skote.Models.LoginViewModel
+﻿@model LojiteksWeb.Models.LoginViewModel
 
 @{
     ViewData["Title"] = "Kullanıcı Girişi ";
@@ -86,7 +86,7 @@
                     <div class="d-flex flex-column h-100">
                         <div class="mb-4 mb-md-5">
                             <a href="@Url.Action("Index", "Dashboard")" class="d-block card-logo">
-                                <img src="@Url.Content("~/assets/logo/Logo-2Color.png")" alt="" height="175" class="card-logo-dark" />
+                                <img src="@Url.Content("~/assets/logo/Logo-2Color.svg")" alt="" height="175" class="card-logo-dark" />
                             </a>
 
                         </div>
@@ -115,9 +115,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <div class="float-end">
-                                            <a href="@Url.Action("Recoverpw2", "Auth")" class="text-muted">Şifremi unuttum!</a>
-                                        </div>
+
                                         <label asp-for="Sifre" class="form-label">Şifre</label>
                                         <div class="input-group auth-pass-inputgroup">
                                             <input asp-for="Sifre" class="form-control" placeholder="Şifre giriniz" type="password" aria-label="Password" aria-describedby="password-addon" />
@@ -126,6 +124,9 @@
                                             </button>
                                         </div>
                                         <span asp-validation-for="Sifre" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a href="@Url.Action("Recoverpw2", "Auth")" class="text-muted">Şifremi unuttum!</a>
                                     </div>
 
                                     <div class="mt-3 d-grid">
