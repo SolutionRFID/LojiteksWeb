@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Sevkiyat Ekle ";
+    ViewData["Desc"] = "Sevkiyat Ekle ";
+    ViewBag.pTitle = "Sevkiyat Ekle";
+    ViewBag.pageTitle = "Sevkiyat Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+        <div class="card-body">
+
+            <h4 class="card-title">Yeni Sevkiyat</h4>
+            <p class="card-title-desc"></p>
+            <div class="row">
+                <form id="shipmentForm">
+                    <div class="mb-3 row">
+                        <label for="poNumber" class="col-md-1 col-form-label">PO Numarası</label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" id="poNumber" name="poNumber" required>
+                        </div>
+
+                        <label for="description" class="col-md-1 col-form-label">Açıklama</label>
+                        <div class="col-md-5">
+                            <input class="form-control" type="text" id="description" name="description" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="shipmentQuantity" class="col-md-1 col-form-label">Sevkiyat Adeti</label>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" id="shipmentQuantity" name="shipmentQuantity" value="1" placeholder="Enter Number" required>
+                        </div>
+
+                        <label for="shipmentDate" class="col-md-1 col-form-label">Sevkiyat Tarihi</label>
+                        <div class="col-md-3">
+                            <input class="form-control" type="date" id="shipmentDate" name="shipmentDate" required>
+                        </div>
+
+                        <label for="customerSelect" class="col-md-1 col-form-label">Müşteri Seç</label>
+                        <div class="col-md-3">
+                            <select class="form-select" id="customerSelect" name="customer" required>
+                                <option value="">Müşteri Seçiniz</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+        </div>
+    </div> <!-- end card -->
+  </div> <!-- end col-12 -->
+</div>
+
+
+
+@section scripts {
+        <script src="~/assets/js/app.js"></script>
+        <script>
+            $(document).ready(function () {
+                // Sayfa yüklendiğinde şu anki tarihi al ve shipmentDate alanına yerleştir (YYYY-MM-DD formatında)
+                var today = new Date().toISOString().split('T')[0];
+                $("#shipmentDate").val(today);
+
+                // Sayfa yüklendiğinde müşteri listesini çek
+                getCustomer();
+
+                // Form submit edildiğinde sayfa yenilenmesini engelle ve AddShipment() fonksiyonunu çağır
+                $("#shipmentForm").submit(function (event) {
+                    event.preventDefault(); // Sayfanın yenilenmesini engelle
+                    AddShipment();
+                });
+            });
+
+            // ✅ Müşteri listesini getiren fonksiyon
+            function getCustomer() {
+                $.ajax({
+                    url: '/api/GetCustomers',  // Müşteri listesini getiren API
+                    type: 'GET',
+                    success: function (data) {
+                        var select = $("#customerSelect");
+                        select.empty();
+                        select.append('<option value="">Müşteri Seçiniz</option>');
+
+                        $.each(data, function (index, customer) {
+                            select.append('<option value="' + customer.id + '">' + customer.name + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert("Müşteri listesi alınırken hata oluştu.");
+                    }
+                });
+            }
+
+            // ✅ Sevkiyat ekleyen fonksiyon
+            function AddShipment() {
+                var formData = {
+                    Po: $("#poNumber").val().trim(),
+                    Aciklama: $("#description").val().trim(),
+                    GonderiAdedi: parseInt($("#shipmentQuantity").val()), // Sayısal veri
+                    GonderimTarihi: $("#shipmentDate").val(),
+                    Musteri: parseInt($("#customerSelect").val()) // Müşteri ID'si sayısal olmalı
+                };
+
+                // 🚨 Önce zorunlu alanları kontrol et
+                if (!formData.Po || !formData.Aciklama || !formData.GonderiAdedi || !formData.GonderimTarihi || !formData.Musteri) {
+                    alert("Lütfen tüm alanları doldurun!");
+                    return;
+                }
+
+                console.log("Gönderilen veri:", formData); // Gönderilen veriyi konsolda kontrol et
+
+                $.ajax({
+                    url: '/api/AddShipment', // API'ye POST isteği gönder
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        alert("Sevkiyat başarıyla eklendi!");
+                        window.location.href = "/ShipmentsReports"; // Başarılıysa yönlendir
+                    },
+                    error: function (xhr) {
+                        alert("Hata oluştu: " + xhr.responseText);
+                        console.error("Hata Detayı:", xhr);
+                    }
+                });
+            }
+
+
+        </script>
+
+}
+

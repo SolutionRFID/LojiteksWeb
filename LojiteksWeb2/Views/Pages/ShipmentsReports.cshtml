@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Sevkiyatlar ";
+    ViewData["Desc"] = "Sevkiyatlar ";
+    ViewBag.pTitle = "Sevkiyatlar";
+    ViewBag.pageTitle = "Raporlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Sevkiyat Listesi</h4>
+        <p class="card-title-desc">
+            
+        </p>
+        <div id="datatable-buttons_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+          <div class="row">
+            <!-- Butonlar -->
+            <div class="col-sm-12 col-md-6">
+                <!-- Butonlar buraya eklenmeli -->
+            </div>
+            <!-- Arama Kutusu -->
+
+          </div>
+          <!-- Tablo -->
+          <div class="row">
+            <div class="col-sm-12">
+              <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100 dataTable no-footer">
+                <thead>
+                  <tr>
+                    <th>PO</th>
+                    <th>Sevkiyat Adeti</th>
+                    <th>Sevkiyat Tarihi</th>
+                    <th>Açıklama</th>
+                    <th>Musteri</th>
+                    <th>Kullanıcı</th> 
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Bilgi ve Sayfalama -->
+
+        </div>
+      </div> <!-- end card-body -->
+    </div> <!-- end card -->
+  </div> <!-- end col-12 -->
+</div>
+
+
+
+@section scripts {
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/js/app.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#datatable-buttons').DataTable({
+                "language": {
+                    "search": "Arama:",  // Search kutusunun adını değiştir
+                    "lengthMenu": "Sayfa başına _MENU_ kayıt göster",
+                    "info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                    "infoEmpty": "Gösterilecek kayıt yok",
+                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
+                    "zeroRecords": "Eşleşen kayıt bulunamadı",
+                    "paginate": {
+                        "first": "İlk",
+                        "last": "Son",
+                        "next": "Sonraki",
+                        "previous": "Önceki"
+                    }
+                },
+                ajax: {
+                    url: '/api/GetShipments', // API endpoint URL (POST isteği ile)
+                    type: 'POST',
+                    dataSrc: 'data' // JSON yanıtınızın "data" propertysi içindeki array
+                },
+                columns: [
+                    { data: 'po', defaultContent: "" },
+                    { data: 'adet', defaultContent: "" },
+                    { data: 'gonderimTarihi', defaultContent: "" },
+                    { data: 'aciklama', defaultContent: "" },
+                    { data: 'musteri', defaultContent: "" },
+                    { data: 'kullanici', defaultContent: "" },
+                    { 
+                        data: 'bid',  // ✔ bid burada JSON'dan doğrudan geliyor
+                        defaultContent: "",
+                        orderable: false, // İşlemler sütunu sıralanamaz
+                        render: function (data, type, row) {
+                            return `
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success waves-effect waves-light details-btn" data-id="${data}">
+                                        <i class="bx bx-search-alt font-size-20 align-middle me-2"></i> Ayrıntılar
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                lengthChange: false,
+                dom: 'Bfrtip', // DataTable butonları için gerekli
+                buttons: [
+                    { extend: 'copy', text: 'Kopyala' },  // 🔹 "Copy" butonunu "Kopyala" olarak değiştir
+                    { extend: 'excel', text: 'Excel İndir' }, // 🔹 "Excel" butonunu "Excel İndir" olarak değiştir
+                    { extend: 'pdf', text: 'PDF İndir' }, // 🔹 "PDF" butonunu "PDF İndir" olarak değiştir
+                    { extend: 'colvis', text: 'Sütunları Düzenle' } // 🔹 "Column visibility" butonu güncellendi
+                ],
+                initComplete: function () {
+                    table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+                    // "Yeni Sevkiyat Ekle" butonunu en sağa hizalı ekleyelim
+                    $('.col-md-6:eq(0)').after(`
+                        <div class="col-sm-12 col-md-6 text-end">
+                            <button id="NewShipmentButton" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Yeni Sevkiyat Ekle
+                            </button>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                    `);
+
+                    // Yeni Sevkiyat Ekle butonuna tıklanınca yönlendirme
+                        $('#NewShipmentButton').on('click', function() {
+                        window.location.href = '/NewShipment';
+                    });
+
+                    $(document).ready(function () {
+                        $('#datatable-buttons tbody').on('click', '.details-btn', function () {
+                            var bid = $(this).data("id");  // Butondan `bid` değerini al
+                                window.location.href = '/api/GetShipmentDetails?ShipmentID=' + bid; // Sayfaya yönlendir
+                        });
+                    });
+                }
+            });
+
+            // Sevkiyat düzenleme butonu
+            $('#datatable-buttons tbody').on('click', '.edit-btn', function() {
+                var shipmentId = $(this).data("id");
+                window.location.href = '/EditShipment?po=' + shipmentId;
+            });
+
+            // Sevkiyat silme butonu
+            $('#datatable-buttons tbody').on('click', '.delete-btn', function() {
+                var shipmentId = $(this).data("id");
+                if (confirm("Bu sevkiyatı silmek istediğinizden emin misiniz?")) {
+                    deleteShipment(shipmentId);
+                }
+            });
+
+        });
+
+        // Sevkiyat Silme Fonksiyonu
+        function deleteShipment(po) {
+            $.ajax({
+                url: '/api/DeleteShipment?po=' + po,
+                type: 'DELETE',
+                success: function(response) {
+                    alert("Sevkiyat başarıyla silindi!");
+                    $('#datatable-buttons').DataTable().ajax.reload(); // Tabloyu güncelle
+                },
+                error: function(xhr) {
+                    alert("Silme işlemi sırasında hata oluştu: " + xhr.responseText);
+                }
+            });
+        }
+    </script>
+
+
+}
+

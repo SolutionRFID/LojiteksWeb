@@ -131,7 +131,8 @@ namespace LojiteksApi.Controllers
             {
                 var result = await _context.TBL_Basliklar
                     .AsNoTracking()
-                    .Where(x => x.FirmaID == id)
+                    .Where(x => x.FirmaID == id && x.SilindiMi == false)
+                    .OrderByDescending(x => x.KayitTarihi)
                    .Select(x => new BaslikModel
                    {
                        BaslikID = x.BaslikID,

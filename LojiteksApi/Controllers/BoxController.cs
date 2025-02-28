@@ -114,13 +114,13 @@ namespace LojiteksApi.Controllers
             }
         }
 
-        [HttpGet("GetBox/{titleId}")]
+        [HttpGet("GetBox")]
         public async Task<IActionResult> GetBox(long titleId)
         {
             var responseMessage = new ResponseMessage();
             try
             {
-                // Öncelikle verilen titleId'ye ait baslık kaydını getiriyoruz.
+                // Verilen titleId'ye ait baslık kaydını getiriyoruz.
                 var box = await _context.TBL_Basliklar
                     .FirstOrDefaultAsync(b => b.BaslikID == titleId);
 
@@ -132,24 +132,23 @@ namespace LojiteksApi.Controllers
                     return NotFound(responseMessage);
                 }
 
+                // İlgili koli (box) kayıtlarını getiriyoruz.
+                var boxs = await _context.TBL_Koliler
+                    .Where(k => k.BaslikID == titleId)
+                    .ToListAsync();
+
                 // İlgili EPC kayıtlarını getiriyoruz.
                 var epcs = await _context.TBL_Epcler
                     .Where(e => e.BaslikID == titleId)
                     .ToListAsync();
 
-                // Gelen verileri, önceden tanımlı BoxDetailModel DTO'suna eşliyoruz.
-                // Örnek DTO; ihtiyaçlarınıza göre ek alanlar ekleyebilirsiniz.
+                // Gelen verileri BoxDetailModel DTO'suna eşliyoruz.
                 var boxDetail = new BoxDetailModel
                 {
                     TitleID = box.BaslikID,
-                    // Baslık ile ilgili diğer alanları da ekleyebilirsiniz, örn:
-                    // Tipi = box.Tipi,
-                    // Aciklama = box.Aciklama,
-
-                    // EPC kayıtlarını DTO içindeki listeye dönüştürüyoruz.
                     EpcModels = epcs.Select(e => new EpcModel
                     {
-                        // Eğer KoliId değeri yoksa -1 olarak atayabiliriz.
+                        // KoliId değeri varsa onu kullanıyoruz, yoksa -1 atıyoruz.
                         KoliId = e.KoliId.HasValue ? e.KoliId : -1,
                         Epc = e.Epc,
                         Upc = e.Upc,
@@ -157,17 +156,17 @@ namespace LojiteksApi.Controllers
                         SilindiMi = e.SilindiMi,
                         KayitTarihi = e.KayitTarihi,
                         FirmaID = e.FirmaID,
-                        BaslikNo= e.BaslikID
+                        BaslikNo = e.BaslikID
                     }).ToList(),
 
-                    // Eğer BoxDetailModel içinde koli bilgisi de eklemek istiyorsanız,
-                    // aşağıdaki gibi bir dönüştürme yapabilirsiniz (örneğin KoliModels adlı liste varsa):
-                    // KoliModels = koliler.Select(k => new KoliModel
-                    // {
-                    //     KoliId = k.KoliId,
-                    //     Adet = k.Adet,
-                    //     // diğer alanlar...
-                    // }).ToList()
+                    BoxModels = boxs.Select(e => new BoxModel
+                    {
+                        BoxID =(int)e.KoliId,
+                        TotalEPCCount = (int)e.Adet,
+                        CreatedDate = e.KayitTarihi,
+                        Deleted = e.SilindiMi
+
+                    }).ToList()
                 };
 
                 responseMessage.isSuccess = true;

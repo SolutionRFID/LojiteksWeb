@@ -6,26 +6,114 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="row">
+    <!-- 📌 Toplam Sevkiyat -->
+    <div class="col-md-4">
+        <div class="card mini-stats-wid">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Toplam Sevkiyat</p>
+                        <h4 class="mb-0" id="toplamSevkiyat">0</h4> <!-- 📌 Dinamik Güncellenecek -->
+                    </div>
+                    <div class="flex-shrink-0 align-self-center">
+                        <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                            <span class="avatar-title">
+                                <i class="mdi mdi-truck-outline font-size-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- 📌 Toplam Koli -->
+    <div class="col-md-4">
+        <div class="card mini-stats-wid">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Toplam Koli</p>
+                        <h4 class="mb-0" id="toplamKoli">0</h4> <!-- 📌 Dinamik Güncellenecek -->
+                    </div>
+                    <div class="flex-shrink-0 align-self-center ">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                            <span class="avatar-title rounded-circle bg-primary">
+                                <i class="bx bx-box font-size-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-<div class="col-xl-6">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title mb-4">Son 6 Aylık Sevkiyat Özeti</h4>
-            <div id="pie_chart" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning", "--bs-secondry"]' class="apex-charts" dir="ltr"></div>
+    <!-- 📌 Toplam Ürün -->
+    <div class="col-md-4">
+        <div class="card mini-stats-wid">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Toplam Ürün</p>
+                        <h4 class="mb-0" id="toplamUrun">0</h4> <!-- 📌 Dinamik Güncellenecek -->
+                    </div>
+                    <div class="flex-shrink-0 align-self-center">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                            <span class="avatar-title rounded-circle bg-primary">
+                                <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+        
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Son 6 Aylık Gönderilen Ürün Adedi</h4>
+                        <div id="spline_area" data-colors='["--bs-primary", "--bs-success"]' class="apex-charts" dir="ltr"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Son 6 Aylık Sevkiyat Özeti</h4>
+                        <div id="pie_chart" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Son 6 Aylık Kapatılan Sevkiyatlar</h4>
+                        <div id="pie_chart2" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
 @section scripts{
     <script src="~/assets/js/app.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function () 
+        {
+            var finalColors = getChartColorsArray("pie_chart");
+            console.log(finalColors); // 6 elemanlı bir dizi mi? Her eleman geçerli bir renk mi?
             $.ajax({
-                url: '/api/Reports/GetPieChartDataAjax',  // Controller'daki POST action URL'si
+                        url: '/Dashboard/GetLast6MonthShipments',  // Controller'daki POST action URL'si
                 type: 'POST',
                 dataType: 'json',
                 success: function (data) {
@@ -65,33 +153,220 @@
         });
 
         // Container'daki data-colors attribute'undan renk dizisini çeken fonksiyon
-        function getChartColorsArray(chartId) {
-            var chartElement = document.getElementById(chartId);
-            if (chartElement) {
-                var colors = chartElement.getAttribute("data-colors");
-                if (colors) {
-                    colors = JSON.parse(colors);
-                    return colors.map(function (value) {
-                        var newValue = value.replace(" ", "");
-                        if (newValue.indexOf(",") === -1) {
-                            var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-                            return color ? color.trim() : newValue;
+    function getChartColorsArray(chartId) {
+        var chartElement = document.getElementById(chartId);
+        if (chartElement) {
+            var colors = chartElement.getAttribute("data-colors");
+            if (colors) {
+                colors = JSON.parse(colors);
+                return colors.map(function (value) {
+                    // Tüm boşlukları kaldır
+                    var newValue = value.replace(/\s/g, "");
+                    if (newValue.indexOf(",") === -1) {
+                        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+                        return color ? color.trim() : newValue;
+                    } else {
+                        var val = newValue.split(",");
+                        if (val.length === 2) {
+                            var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                            rgbaColor = "rgba(" + rgbaColor.trim() + "," + val[1].trim() + ")";
+                            return rgbaColor;
                         } else {
-                            var val = newValue.split(",");
-                            if (val.length === 2) {
-                                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-                                rgbaColor = "rgba(" + rgbaColor.trim() + "," + val[1].trim() + ")";
-                                return rgbaColor;
-                            } else {
-                                return newValue;
-                            }
+                            return newValue;
                         }
-                    });
-                } else {
-                    console.warn('data-colors attribute not found on:', chartId);
-                }
+                    }
+                });
+            } else {
+                console.warn('data-colors attribute not found on:', chartId);
             }
         }
+    }
+
     </script>
+    <script>
+        $(document).ready(function () 
+        {
+            var finalColors = getChartColorsArray("pie_chart2");
+            console.log(finalColors); // 6 elemanlı bir dizi mi? Her eleman geçerli bir renk mi?
+            $.ajax({
+                        url: '/Dashboard/GetLast6ClosedMonthShipments',  // Controller'daki POST action URL'si
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    var options = {
+                        chart: {
+                            type: 'pie',
+                            height: 320
+                        },
+                        series: data.series,   // API'den gelen veriler
+                            labels: data.series.length === 1 ? ["Kapalı"] : ["Açık", "Kapalı"],  
+                        colors: getChartColorsArray("pie_chart2"),
+                        legend: {
+                            show: true,
+                            position: 'bottom',
+                            horizontalAlign: 'center'
+                        },
+                        responsive: [{
+                            breakpoint: 600,
+                            options: {
+                                chart: {
+                                    height: 240
+                                },
+                                legend: {
+                                    show: false
+                                }
+                            }
+                        }]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector("#pie_chart2"), options);
+                    chart.render();
+                },
+                error: function (error) {
+                    console.error("Veri çekme hatası:", error);
+                }
+            });
+        });
+
+        // Container'daki data-colors attribute'undan renk dizisini çeken fonksiyon
+    function getChartColorsArray(chartId) {
+        var chartElement = document.getElementById(chartId);
+        if (chartElement) {
+            var colors = chartElement.getAttribute("data-colors");
+            if (colors) {
+                colors = JSON.parse(colors);
+                return colors.map(function (value) {
+                    // Tüm boşlukları kaldır
+                    var newValue = value.replace(/\s/g, "");
+                    if (newValue.indexOf(",") === -1) {
+                        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+                        return color ? color.trim() : newValue;
+                    } else {
+                        var val = newValue.split(",");
+                        if (val.length === 2) {
+                            var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                            rgbaColor = "rgba(" + rgbaColor.trim() + "," + val[1].trim() + ")";
+                            return rgbaColor;
+                        } else {
+                            return newValue;
+                        }
+                    }
+                });
+            } else {
+                console.warn('data-colors attribute not found on:', chartId);
+            }
+        }
+    }
+
+    </script>
+
+
+        <script>
+            $(document).ready(function () {
+                var finalColors = getChartColorsArray("spline_area");
+                console.log(finalColors); // Renk dizisinin doğru olup olmadığını kontrol et
+
+                $.ajax({
+                    url: '/Dashboard/GetLast6MonthProduct',  // 📌 Controller'dan veri çekilecek API adresi
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        var options = {
+                            chart: {
+                                type: 'area',
+                                height: 350
+                            },
+                                series: [{ name: "EPC Adeti", data: data.series[0] }],   // 📌 API'den gelen veriler
+                            colors: getChartColorsArray("spline_area"),
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth'
+                            },
+                            xaxis: {
+                                categories: data.labels // 📌 API'den gelen ay isimleri
+                            },
+                            legend: {
+                                show: true,
+                                position: 'bottom',
+                                horizontalAlign: 'center'
+                            },
+                            responsive: [{
+                                breakpoint: 600,
+                                options: {
+                                    chart: {
+                                        height: 280
+                                    },
+                                    legend: {
+                                        show: false
+                                    }
+                                }
+                            }]
+                        };
+
+                        var chart = new ApexCharts(document.querySelector("#spline_area"), options);
+                        chart.render();
+                    },
+                    error: function (error) {
+                        console.error("Veri çekme hatası:", error);
+                    }
+                });
+            });
+
+            // 📌 Container'daki data-colors attribute'undan renk dizisini çeken fonksiyon
+            function getChartColorsArray(chartId) {
+                var chartElement = document.getElementById(chartId);
+                if (chartElement) {
+                    var colors = chartElement.getAttribute("data-colors");
+                    if (colors) {
+                        colors = JSON.parse(colors);
+                        return colors.map(function (value) {
+                            var newValue = value.replace(/\s/g, "");
+                            if (newValue.indexOf(",") === -1) {
+                                var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+                                return color ? color.trim() : newValue;
+                            } else {
+                                var val = newValue.split(",");
+                                if (val.length === 2) {
+                                    var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                                    rgbaColor = "rgba(" + rgbaColor.trim() + "," + val[1].trim() + ")";
+                                    return rgbaColor;
+                                } else {
+                                    return newValue;
+                                }
+                            }
+                        });
+                    } else {
+                        console.warn('data-colors attribute not found on:', chartId);
+                    }
+                }
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/Dashboard/GetDashboardStats',  // 📌 API adresi
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Gelen API verisi:", data);
+
+                        if (data.error) {
+                            console.error("Hata:", data.error);
+                            return;
+                        }
+
+                        // 📌 Verileri HTML içine yaz
+                        $("#toplamSevkiyat").text(data.toplamSevkiyat);
+                        $("#toplamKoli").text(data.toplamKoli);
+                        $("#toplamUrun").text(data.toplamUrun);
+                    },
+                    error: function (error) {
+                        console.error("Veri çekme hatası:", error);
+                    }
+                });
+            });
+        </script>
 
 }

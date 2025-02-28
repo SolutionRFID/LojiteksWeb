@@ -1,4 +1,6 @@
-﻿namespace LojiteksWeb.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LojiteksWeb.Models
 {
     public class KullaniciModel
     {

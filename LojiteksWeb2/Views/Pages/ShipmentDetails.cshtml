@@ -1,0 +1,497 @@
+﻿@model List<ShipmentDetailsViewModel>
+@{
+    ViewData["Title"] = "Sevkiyat Detay ";
+    ViewData["Desc"] = "Sevkiyat Detay ";
+    ViewBag.pTitle = "Sevkiyat Detay";
+    ViewBag.pageTitle = "Raporlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-xl-3 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <br />
+                <div class="mb-4" style= "display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; ">
+                    <svg class="custom-icon-effect" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350" style="width: 150px; color: black;">
+                        <path d="M103.81,296.23c-.94-.03-1.83-.42-2.49-1.09-.69-.69-1.08-1.64-1.08-2.62l.32-188.26c0-2.04,1.66-3.69,3.7-3.69l213.36.36c2.02-.05,3.69,1.66,3.69,3.7l-.32,188.26c0,.98-.39,1.92-1.09,2.61-.69.69-1.64,1.08-2.62,1.08l-213.36-.36s-.08,0-.12,0ZM107.94,107.98l-.31,180.87,205.97.35.3-180.87-205.97-.35Z" fill="currentColor"/>
+                        <path d="M101.32,295.14L1.08,194.57C.39,193.87,0,192.93,0,191.95L.32,3.69c0-1.5.9-2.84,2.29-3.41C3.98-.29,5.57.03,6.63,1.09l100.24,100.58-5.24,5.22L7.7,12.63l-.3,177.81,99.16,99.49-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M314.99,107.24L215.84,7.75,4.01,7.39V0s213.38.36,213.38.36c.94-.04,1.92.39,2.61,1.09l100.24,100.58-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M185.62,158.31c-1.98-.07-3.57-1.7-3.57-3.7l.08-48.67L82.98,6.44l5.24-5.22,100.24,100.58c.69.69,1.08,1.64,1.08,2.62l-.08,46.51,42.81.07.08-44.98L133.18,6.53l5.24-5.22,100.24,100.58c.69.69,1.08,1.63,1.08,2.62l-.08,50.2c0,2.04-1.66,3.69-3.7,3.69l-50.2-.08s-.08,0-.12,0Z" fill="currentColor"/>
+                        <path d="M222.6,273.61l-5.28-5.23c-2.78,1.34-5.86,2.02-9.26,2.02-5.62,0-10.22-1.68-13.78-5.04-3.5-3.41-5.28-7.87-5.28-13.44s1.78-10.03,5.28-13.39c3.55-3.41,8.16-5.09,13.78-5.09s10.13,1.68,13.63,5.09c3.55,3.36,5.33,7.82,5.33,13.39,0,3.98-.96,7.44-2.83,10.37l4.9,4.8-6.48,6.53ZM210.69,261.89l-4.13-4.08,6.53-6.48,4.08,3.98c.24-1.1.38-2.21.38-3.41,0-6.34-3.7-10.27-9.5-10.27s-9.6,3.94-9.6,10.27,3.7,10.27,9.6,10.27c.91,0,1.82-.1,2.64-.29Z" fill="currentColor"/>
+                        <path d="M262.05,242.16h-11.18v27.7h-9.26v-27.7h-11.23v-8.21h31.68v8.21Z" fill="currentColor"/>
+                        <path d="M286.29,256.71v13.15h-9.26v-13.15l-13.63-22.75h10.75l7.49,13.54,7.49-13.54h10.75l-13.58,22.75Z" fill="currentColor"/>
+                    </svg>
+                </div>
+
+                <p class="text-muted">Koli İçi Adet Raporu</p>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+                <div class="contact-links d-flex font-size-20">
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="copyQTYBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="excelQTYBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <br />
+                <div class="mb-4 style= "display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; "">
+                    <svg class="custom-icon-effect" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350" style="width: 150px; color: black;">
+                        <path d="M103.81,296.23c-.94-.03-1.83-.42-2.49-1.09-.69-.69-1.08-1.64-1.08-2.62l.32-188.26c0-2.04,1.66-3.69,3.7-3.69l213.36.36c2.02-.05,3.69,1.66,3.69,3.7l-.32,188.26c0,.98-.39,1.92-1.09,2.61-.69.69-1.64,1.08-2.62,1.08l-213.36-.36s-.08,0-.12,0ZM107.94,107.98l-.31,180.87,205.97.35.3-180.87-205.97-.35Z" fill="currentColor"/>
+                        <path d="M101.32,295.14L1.08,194.57C.39,193.87,0,192.93,0,191.95L.32,3.69c0-1.5.9-2.84,2.29-3.41C3.98-.29,5.57.03,6.63,1.09l100.24,100.58-5.24,5.22L7.7,12.63l-.3,177.81,99.16,99.49-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M314.99,107.24L215.84,7.75,4.01,7.39V0s213.38.36,213.38.36c.94-.04,1.92.39,2.61,1.09l100.24,100.58-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M185.62,158.31c-1.98-.07-3.57-1.7-3.57-3.7l.08-48.67L82.98,6.44l5.24-5.22,100.24,100.58c.69.69,1.08,1.64,1.08,2.62l-.08,46.51,42.81.07.08-44.98L133.18,6.53l5.24-5.22,100.24,100.58c.69.69,1.08,1.63,1.08,2.62l-.08,50.2c0,2.04-1.66,3.69-3.7,3.69l-50.2-.08s-.08,0-.12,0Z" fill="currentColor"/>
+                        <path d="M224.77,233.35v20.64c0,4.94-1.39,8.83-4.22,11.62-2.78,2.78-6.67,4.18-11.62,4.18s-8.88-1.39-11.71-4.18-4.22-6.67-4.22-11.62v-20.64h9.26v20.5c0,5.14,2.21,7.73,6.67,7.73s6.62-2.59,6.62-7.73v-20.5h9.22Z" fill="currentColor"/>
+                        <path d="M230.91,233.35h16.42c7.3,0,11.95,4.51,11.95,12,0,3.7-1.1,6.62-3.26,8.79-2.16,2.11-5.04,3.17-8.69,3.17h-7.15v11.95h-9.26v-35.91ZM240.17,241.56v7.58h6c2.26,0,3.7-1.44,3.7-3.79s-1.44-3.79-3.7-3.79h-6Z" fill="currentColor"/>
+                        <path d="M292.64,236.57c3.22,2.5,5.18,5.86,5.86,10.13l-9.7.91c-1.01-4.37-3.7-6.58-8.06-6.58-5.42,0-8.88,4.08-8.88,10.27,0,6.58,3.65,10.27,8.88,10.27,4.22,0,7.25-2.3,8.06-6.58l9.7.82c-.67,4.27-2.64,7.68-5.86,10.23-3.22,2.5-7.1,3.74-11.57,3.74-5.52,0-9.99-1.68-13.49-4.99-3.46-3.31-5.18-7.82-5.18-13.49s1.73-10.18,5.18-13.49c3.5-3.31,7.97-4.99,13.49-4.99,4.46,0,8.35,1.25,11.57,3.75Z" fill="currentColor"/>
+                    </svg>
+                </div>
+
+                <p class="text-muted">Koli İçi UPC Raporu</p>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+                <div class="contact-links d-flex font-size-20">
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="copyUPCBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="excelUPCBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <br />
+                <div class="mb-4" style= "display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; ">
+                    <svg class="custom-icon-effect" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350" style="width: 150px; color: black;">
+                        <path <path d="M103.81,296.23c-.94-.03-1.83-.42-2.49-1.09-.69-.69-1.08-1.64-1.08-2.62l.32-188.26c0-2.04,1.66-3.69,3.7-3.69l213.36.36c2.02-.05,3.69,1.66,3.69,3.7l-.32,188.26c0,.98-.39,1.92-1.09,2.61-.69.69-1.64,1.08-2.62,1.08l-213.36-.36s-.08,0-.12,0ZM107.94,107.98l-.31,180.87,205.97.35.3-180.87-205.97-.35Z" fill="currentColor"/>
+                        <path d="M101.32,295.14L1.08,194.57C.39,193.87,0,192.93,0,191.95L.32,3.69c0-1.5.9-2.84,2.29-3.41C3.98-.29,5.57.03,6.63,1.09l100.24,100.58-5.24,5.22L7.7,12.63l-.3,177.81,99.16,99.49-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M314.99,107.24L215.84,7.75,4.01,7.39V0s213.38.36,213.38.36c.94-.04,1.92.39,2.61,1.09l100.24,100.58-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M185.62,158.31c-1.98-.07-3.57-1.7-3.57-3.7l.08-48.67L82.98,6.44l5.24-5.22,100.24,100.58c.69.69,1.08,1.64,1.08,2.62l-.08,46.51,42.81.07.08-44.98L133.18,6.53l5.24-5.22,100.24,100.58c.69.69,1.08,1.63,1.08,2.62l-.08,50.2c0,2.04-1.66,3.69-3.7,3.69l-50.2-.08s-.08,0-.12,0Z" fill="currentColor"/>
+                        <path d="M213.47,245.11c0-2.5-1.54-4.13-4.27-4.13-2.3,0-3.79,1.2-3.79,3.17,0,.91.38,1.58,1.2,2.06.82.48,2.4,1.01,4.75,1.54,4.03,1.1,7.06,2.4,9.07,3.98,2.02,1.58,3.02,3.84,3.02,6.82,0,3.79-1.25,6.62-3.79,8.54-2.54,1.87-5.76,2.83-9.7,2.83-4.46,0-8.07-1.06-10.8-3.17-2.74-2.16-4.08-5.14-4.03-8.98l9.46-.48c-.05,2.74,2.16,4.61,5.38,4.61,2.69,0,4.03-.96,4.03-2.88,0-1.73-1.82-2.78-6.1-3.89-3.84-.96-5.9-1.73-8.35-3.31s-3.6-3.98-3.6-7.39,1.1-6.05,3.36-8.21,5.52-3.26,9.7-3.26,7.54,1.06,10.08,3.12c2.54,2.06,3.79,4.94,3.84,8.54l-9.46.48Z" fill="currentColor"/>
+                        <path d="M237.71,269.4h-9.26v-35.91h9.26v35.91Z" fill="currentColor"/><path d="M269.06,240.51l-14.5,20.69h15.02v8.21h-26.88v-7.01l14.45-20.69h-14.45v-8.21h26.35v7.01Z" fill="currentColor"/>
+                        <path d="M297.86,241.71h-14.26v5.38h12.19v8.02h-12.19v6.1h14.31v8.21h-23.57v-35.91h23.52v8.21Z" fill="currentColor"/>
+                    </svg>
+                </div>
+
+                <p class="text-muted">Koli İçi Beden Raporu</p>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+                <div class="contact-links d-flex font-size-20">
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="copySizeBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);"id="excelSizeBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <br />
+                <div class="mb-4" style= "display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; ">
+                    <svg class="custom-icon-effect" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350" style="width: 150px; color: black;">
+                        <path d="M103.81,296.23c-.94-.03-1.83-.42-2.49-1.09-.69-.69-1.08-1.64-1.08-2.62l.32-188.26c0-2.04,1.66-3.69,3.7-3.69l213.36.36c2.02-.05,3.69,1.66,3.69,3.7l-.32,188.26c0,.98-.39,1.92-1.09,2.61-.69.69-1.64,1.08-2.62,1.08l-213.36-.36s-.08,0-.12,0ZM107.94,107.98l-.31,180.87,205.97.35.3-180.87-205.97-.35Z" fill="currentColor"/>
+                        <path d="M101.32,295.14L1.08,194.57C.39,193.87,0,192.93,0,191.95L.32,3.69c0-1.5.9-2.84,2.29-3.41C3.98-.29,5.57.03,6.63,1.09l100.24,100.58-5.24,5.22L7.7,12.63l-.3,177.81,99.16,99.49-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M314.99,107.24L215.84,7.75,4.01,7.39V0s213.38.36,213.38.36c.94-.04,1.92.39,2.61,1.09l100.24,100.58-5.24,5.22Z" fill="currentColor"/>
+                        <path d="M185.62,158.31c-1.98-.07-3.57-1.7-3.57-3.7l.08-48.67L82.98,6.44l5.24-5.22,100.24,100.58c.69.69,1.08,1.64,1.08,2.62l-.08,46.51,42.81.07.08-44.98L133.18,6.53l5.24-5.22,100.24,100.58c.69.69,1.08,1.63,1.08,2.62l-.08,50.2c0,2.04-1.66,3.69-3.7,3.69l-50.2-.08s-.08,0-.12,0Z" fill="currentColor"/>
+                        <path d="M225.54,241.78h-14.26v5.38h12.19v8.02h-12.19v6.1h14.31v8.21h-23.57v-35.91h23.52v8.21Z" fill="currentColor"/>
+                        <path d="M231.2,233.57h16.42c7.3,0,11.95,4.51,11.95,12,0,3.7-1.1,6.62-3.26,8.79-2.16,2.11-5.04,3.17-8.69,3.17h-7.15v11.95h-9.26v-35.91ZM240.46,241.78v7.58h6c2.26,0,3.7-1.44,3.7-3.79s-1.44-3.79-3.7-3.79h-6Z" fill="currentColor"/>
+                        <path d="M292.93,236.79c3.22,2.5,5.18,5.86,5.86,10.13l-9.7.91c-1.01-4.37-3.7-6.58-8.06-6.58-5.42,0-8.88,4.08-8.88,10.27,0,6.58,3.65,10.27,8.88,10.27,4.22,0,7.25-2.3,8.06-6.58l9.7.82c-.67,4.27-2.64,7.68-5.86,10.23-3.22,2.5-7.1,3.74-11.57,3.74-5.52,0-9.99-1.68-13.49-4.99-3.46-3.31-5.18-7.82-5.18-13.49s1.73-10.18,5.18-13.49c3.5-3.31,7.97-4.99,13.49-4.99,4.46,0,8.35,1.25,11.57,3.75Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <p class="text-muted">Koli İçi EPC Raporu</p>
+            </div>
+            <div class="card-footer bg-transparent border-top">
+                <div class="contact-links d-flex font-size-20">
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="copyEPCBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="pdfEPCBtn"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                    <div class="flex-fill">
+                        <a href="javascript: void(0);" id="excelEPCBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Koli Listesi</h4>
+        <p class="card-title-desc">
+            
+        </p>
+        <div id="datatable-buttons_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+          <div class="row">
+            <!-- Butonlar -->
+            <div class="col-sm-12 col-md-6">
+                <!-- Butonlar buraya eklenmeli -->
+            </div>
+            <!-- Arama Kutusu -->
+
+          </div>
+          <!-- Tablo -->
+          <div class="row">
+            <div class="col-sm-12">
+
+                <!-- 📌 Ana Tablo -->
+                <div class="table-responsive">
+                    <table id="datatable-nesting" class="table table-hover mb-0 align-middle ">
+                        <thead class="table-light">
+                            <tr>
+                                <th>View Details</th> <!-- 📌 EPC detaylarını açan buton -->
+                                <th>Koli No</th>
+                                <th>Barkod</th>
+                                <th>Adet</th>
+                                <th>Okuma Tarihi</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-rounded waves-effect waves-light view-epc-btn" data-boxno="@item.BoxNo" data-bs-toggle="modal" data-bs-target="#epcModal">
+                                                Ayrıntılar
+                                            </button>
+                                        </td>
+                                        <td>@item.BoxNo</td>
+                                        <td>@item.BoxBarcode</td>
+                                        <td>@item.BoxInCount</td>
+                                        <td>@item.ReadingDate</td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 📌 EPC Modal (Popup) -->
+                <div class="modal fade" id="epcModal" tabindex="-1" aria-labelledby="epcModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="epcModalLabel">EPC Detayları</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>EPC</th>
+                                            <th>UPC</th>
+                                            <th>Beden</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="epcTableBody">
+                                        <!-- 📌 EPC verileri buraya JavaScript ile eklenecek -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+          <!-- Bilgi ve Sayfalama -->
+
+        </div>
+      </div> <!-- end card-body -->
+    </div> <!-- end card -->
+  </div> <!-- end col-12 -->
+</div>
+
+
+<style>
+    /* Özel ikon efekti class'ı */
+    .custom-icon-effect {
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+    }
+
+    /* Hover efekti */
+    .custom-icon-effect:hover {
+        color: #4458b8 !important; /* Hover rengi */
+        transform: scale(1.2) !important; /* %10 büyüt */
+    }
+</style>
+
+
+
+    <style>
+        .custom-svg-icon {
+
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .custom-svg-icon:hover {
+            color: #4458b8; /* Hover rengi */
+            transform: scale(1.2); /* Biraz büyütme efekti */
+        }
+    </style>
+
+@section scripts {
+    <script src="~/assets/js/app.js"></script>
+    <script src="~/assets/js/app.js"></script>
+        <script>
+            var epcData = @Html.Raw(Json.Serialize(Model)); // 📌 Modeli JSON formatına çevir
+
+            $(document).ready(function () {
+                $('#datatable-nesting').DataTable({
+                    "language": {
+                        "search": "Arama:",  // Search kutusunun adını değiştir
+                        "lengthMenu": "Sayfa başına _MENU_ kayıt göster",
+                        "info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                        "infoEmpty": "Gösterilecek kayıt yok",
+                        "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
+                        "zeroRecords": "Eşleşen kayıt bulunamadı",
+                        "paginate": {
+                            "first": "İlk",
+                            "last": "Son",
+                            "next": "Sonraki",
+                            "previous": "Önceki"
+                        }
+                    }
+                });
+
+                // 📌 "View Details" butonuna tıklanınca EPC Modal'ını doldur
+                $('.view-epc-btn').on('click', function () {
+                    var boxNo = $(this).data('boxno'); // 📌 Butondan Koli No'yu al
+                    var epcList = getEpcRows(boxNo); // 📌 EPC verilerini al
+
+                    $('#epcTableBody').html(epcList); // 📌 Modal içindeki tabloya verileri ekle
+                });
+
+                // 📌 EPC Verilerini Getiren Fonksiyon
+                function getEpcRows(boxNo) {
+                    var epcRows = "";
+                    var found = false;
+
+                    epcData.forEach(function (item) {
+                        if (item.boxNo == boxNo && item.epcList && item.epcList.length > 0) {
+                            found = true;
+                            item.epcList.forEach(function (epc) {
+                                epcRows += `
+                                    <tr>
+                                        <td>${epc.epc || "N/A"}</td>
+                                        <td>${epc.upc || "N/A"}</td>
+                                        <td>${epc.size || "N/A"}</td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                    });
+
+                    if (!found) {
+                        epcRows = "<tr><td colspan='3' class='text-warning'>Bu koli için EPC bulunmamaktadır.</td></tr>";
+                    }
+
+                    return epcRows;
+                }
+            });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let copyEPCBtn = document.getElementById("copyEPCBtn");
+
+            // 📌 Veriyi JSON formatına çevirdik
+            var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+            // 📌 Eğer buton varsa, event listener ekleyelim.
+            if (copyEPCBtn) {
+                copyEPCBtn.addEventListener("click", function () {
+                    if (!Array.isArray(epcData)) {
+                        alert("EPC verileri düzgün yüklenemedi!");
+                        console.error("Hata: EPC verileri array değil!", epcData);
+                        return;
+                    }
+
+                    let text = "Koli No\tBarkod\tAdet\tOkuma Tarihi\n";
+
+                    epcData.forEach(item => {
+                        text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
+
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                text += `\t→ ${epc.epc}\n`;
+                            });
+                        } else {
+                            console.warn(`EpcList bir dizi değil:`, item);
+                        }
+                    });
+
+                    let textarea = document.createElement("textarea");
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
+
+                    alert("Details içeriği başarıyla kopyalandı!");
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let copyEPCBtn = document.getElementById("copySizeBtn");
+
+            // 📌 Veriyi JSON formatına çevirdik
+            var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+            // 📌 Eğer buton varsa, event listener ekleyelim.
+            if (copyEPCBtn) {
+                copyEPCBtn.addEventListener("click", function () {
+                    if (!Array.isArray(epcData)) {
+                        alert("EPC verileri düzgün yüklenemedi!");
+                        console.error("Hata: EPC verileri array değil!", epcData);
+                        return;
+                    }
+
+                    let text = "Koli No\tBarkod\tAdet\tOkuma Tarihi\n";
+
+                    epcData.forEach(item => {
+                        text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
+
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                text += `\t→ ${epc.size}\n`;
+                            });
+                        } else {
+                            console.warn(`EpcList bir dizi değil:`, item);
+                        }
+                    });
+
+                    let textarea = document.createElement("textarea");
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
+
+                    alert("Details içeriği başarıyla kopyalandı!");
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let copyEPCBtn = document.getElementById("copyUPCBtn");
+
+            // 📌 Veriyi JSON formatına çevirdik
+            var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+            // 📌 Eğer buton varsa, event listener ekleyelim.
+            if (copyEPCBtn) {
+                copyEPCBtn.addEventListener("click", function () {
+                    if (!Array.isArray(epcData)) {
+                        alert("EPC verileri düzgün yüklenemedi!");
+                        console.error("Hata: EPC verileri array değil!", epcData);
+                        return;
+                    }
+
+                    let text = "Koli No\tBarkod\tAdet\tOkuma Tarihi\n";
+
+                    epcData.forEach(item => {
+                        text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
+
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                text += `\t→ ${epc.upc}\n`;
+                            });
+                        } else {
+                            console.warn(`EpcList bir dizi değil:`, item);
+                        }
+                    });
+
+                    let textarea = document.createElement("textarea");
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
+
+                    alert("Details içeriği başarıyla kopyalandı!");
+                });
+            }
+        });
+        </script>    
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let copyEPCBtn = document.getElementById("copyQTYBtn");
+
+                // 📌 Veriyi JSON formatına çevirdik
+                var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+                // 📌 Eğer buton varsa, event listener ekleyelim.
+                if (copyEPCBtn) {
+                    copyEPCBtn.addEventListener("click", function () {
+                        if (!Array.isArray(epcData)) {
+                            alert("EPC verileri düzgün yüklenemedi!");
+                            console.error("Hata: EPC verileri array değil!", epcData);
+                            return;
+                        }
+
+                        let text = "Koli No\tBarkod\tAdet\tOkuma Tarihi\n";
+
+                        epcData.forEach(item => {
+                            text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
+
+                            if (Array.isArray(item.epcList)) {
+                                text += `\tToplam EPC: ${item.epcList.length}\n`;
+                            } else {
+                                     text += "\t(EPC bilgisi yok)\n";
+                            }
+                        });
+
+                        let textarea = document.createElement("textarea");
+                        textarea.value = text;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(textarea);
+
+                        alert("Details içeriği başarıyla kopyalandı!");
+                    });
+                }
+            });
+        </script>
+
+
+
+}
+

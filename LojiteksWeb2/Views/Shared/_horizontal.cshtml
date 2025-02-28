@@ -369,9 +369,13 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="~/assets/images/users/avatar-1.jpg"
                          alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1" key="t-henry">Henry</span>
+                    <span class="d-none d-xl-inline-block ms-1">
+                        @{
+                            var SessionUsers = ViewData["SessionUsers"] as Sessions;
+                        }
+                        @SessionUsers?.KullaniciAdi
+                    </span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -763,3 +767,39 @@
         </nav>
     </div>
 </div>
+
+<script>
+    // 📌 Lock Screen Butonu
+    document.getElementById("lockScreenBtn").addEventListener("click", function (e) {
+        e.preventDefault(); // Sayfanın yenilenmesini önle
+
+        fetch('/Auth/LockScreen', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json()) // JSON cevabı işle
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirectUrl; // Kullanıcıyı kilit ekranına yönlendir
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // 📌 Logout Butonu
+    document.getElementById("logoutBtn").addEventListener("click", function (e) {
+        e.preventDefault(); // Sayfanın yenilenmesini önle
+
+        fetch('/Auth/Logout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json()) // JSON cevabı işle
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirectUrl; // Kullanıcıyı giriş ekranına yönlendir
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>

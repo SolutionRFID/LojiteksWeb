@@ -11,6 +11,14 @@ $(document).ready(function() {
 
     //Buttons examples
     var table = $('#datatable-buttons').DataTable({
+
+        columns: [
+            { data: 'po', defaultContent: "" },              // "PO" yerine "po" kullanýlmalý
+            { data: 'gonderimTarihi', defaultContent: "" },
+            { data: 'aciklama', defaultContent: "" },
+            { data: 'musteri', defaultContent: "" },
+            { data: 'kullanici', defaultContent: "" }
+        ],
         lengthChange: false,
         buttons: ['copy', 'excel', 'pdf', 'colvis']
     });

@@ -58,6 +58,57 @@
 
     @RenderSection("scripts", required: false)
 
+    <script>
+        let idleTime = 0;
+
+        function resetIdleTimer() {
+            idleTime = 0; // Kullanıcı hareket ettiğinde süreyi sıfırla
+        }
+
+        function checkIdleTime() {
+            idleTime++;
+            console.log("Idle Time: " + idleTime + " dk");
+
+            if (idleTime >= 10) { // 10 dakika hareketsizse
+                fetch('/Auth/LockScreen', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirectUrl; // Kullanıcıyı kilit ekranına yönlendir
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            if (idleTime >= 120) { // 2 saat hareketsizse tamamen çıkış yap
+                fetch('/Auth/Logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirectUrl; // Kullanıcıyı çıkış sayfasına yönlendir
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        // Kullanıcının bir şey yapıp yapmadığını kontrol eden event'ler
+        window.onload = resetIdleTimer;
+        document.onmousemove = resetIdleTimer;
+        document.onkeypress = resetIdleTimer;
+        document.onclick = resetIdleTimer;
+        document.onscroll = resetIdleTimer;
+
+        // 1 dakika (60,000 ms) aralıklarla inaktiviteyi kontrol et
+        setInterval(checkIdleTime, 60000);
+    </script>
+
 </body>
 
 </html>
