@@ -387,13 +387,25 @@
                     epcData.forEach(item => {
                         text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
 
-                        if (Array.isArray(item.epcList)) {
-                            item.epcList.forEach(epc => {
-                                text += `\t→ ${epc.size}\n`;
-                            });
-                        } else {
-                            console.warn(`EpcList bir dizi değil:`, item);
-                        }
+                            if (Array.isArray(item.epcList)) {
+                                let sizeCounts = {};
+
+                                // 📌 UPC'leri gruplandır ve adetleri say
+                                item.epcList.forEach(epc => {
+                                    if (sizeCounts[epc.size]) {
+                                        sizeCounts[epc.size]++;
+                                    } else {
+                                        sizeCounts[epc.size] = 1;
+                                    }
+                                });
+
+                                // 📌 Gruplanmış veriyi ekleyelim
+                                    for (let size in sizeCounts) {
+                                                text += `\t→ ${size} (Adet: ${sizeCounts[size]})\n`;
+                                }
+                            } else {
+                                console.warn(`EpcList bir dizi değil:`, item);
+                            }
                     });
 
                     let textarea = document.createElement("textarea");
@@ -430,9 +442,21 @@
                         text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
 
                         if (Array.isArray(item.epcList)) {
+                            let upcCounts = {};
+
+                            // 📌 UPC'leri gruplandır ve adetleri say
                             item.epcList.forEach(epc => {
-                                text += `\t→ ${epc.upc}\n`;
+                                if (upcCounts[epc.upc]) {
+                                    upcCounts[epc.upc]++;
+                                } else {
+                                    upcCounts[epc.upc] = 1;
+                                }
                             });
+
+                            // 📌 Gruplanmış veriyi ekleyelim
+                            for (let upc in upcCounts) {
+                                text += `\t→ ${upc} (Adet: ${upcCounts[upc]})\n`;
+                            }
                         } else {
                             console.warn(`EpcList bir dizi değil:`, item);
                         }
@@ -471,11 +495,12 @@
                         epcData.forEach(item => {
                             text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
 
-                            if (Array.isArray(item.epcList)) {
-                                text += `\tToplam EPC: ${item.epcList.length}\n`;
-                            } else {
-                                     text += "\t(EPC bilgisi yok)\n";
-                            }
+
+                                if (Array.isArray(item.epcList)) {
+                                    text += `\tToplam EPC: ${item.epcList.length}\n`;
+                                } else {
+                                         text += "\t(EPC bilgisi yok)\n";
+                                }
                         });
 
                         let textarea = document.createElement("textarea");
