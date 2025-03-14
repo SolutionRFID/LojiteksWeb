@@ -10,10 +10,8 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Sevkiyat Listesi</h4>
-        <p class="card-title-desc">
-            
-        </p>
+        <h4 class="card-title" data-key="t-shipment-list">Sevkiyat Listesi</h4>
+        <p class="card-title-desc"></p>
         <div id="datatable-buttons_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
           <div class="row">
             <!-- Butonlar -->
@@ -21,7 +19,6 @@
                 <!-- Butonlar buraya eklenmeli -->
             </div>
             <!-- Arama Kutusu -->
-
           </div>
           <!-- Tablo -->
           <div class="row">
@@ -29,23 +26,21 @@
               <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100 dataTable no-footer">
                 <thead>
                   <tr>
-                    <th>PO</th>
-                    <th>Sevkiyat Adeti</th>
-                    <th>Sevkiyat Tarihi</th>
-                    <th>Açıklama</th>
-                    <th>Musteri</th>
-                    <th>Kullanıcı</th> 
-                    <th>İşlemler</th>
+                    <th data-key="t-po">PO</th>
+                    <th data-key="t-shipment-quantity">Sevkiyat Adeti</th>
+                    <th data-key="t-shipment-date">Sevkiyat Tarihi</th>
+                    <th data-key="t-description">Açıklama</th>
+                    <th data-key="t-customer">Musteri</th>
+                    <th data-key="t-user">Kullanıcı</th> 
+                    <th data-key="t-actions">İşlemler</th>
                   </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
               </table>
             </div>
           </div>
           <!-- Bilgi ve Sayfalama -->
-
         </div>
       </div> <!-- end card-body -->
     </div> <!-- end card -->
@@ -53,26 +48,24 @@
 </div>
 
 
-
 @section scripts {
-    <script src="~/assets/js/app.js"></script>
-    <script src="~/assets/js/app.js"></script>
+            
     <script>
         $(document).ready(function() {
             var table = $('#datatable-buttons').DataTable({
                 "language": {
-                    "search": "Arama:",  // Search kutusunun adını değiştir
-                    "lengthMenu": "Sayfa başına _MENU_ kayıt göster",
-                    "info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
-                    "infoEmpty": "Gösterilecek kayıt yok",
-                    "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                    "zeroRecords": "Eşleşen kayıt bulunamadı",
-                    "paginate": {
-                        "first": "İlk",
-                        "last": "Son",
-                        "next": "Sonraki",
-                        "previous": "Önceki"
-                    }
+                          "t-search": "Search:",
+                          "t-lengthMenu": "Show _MENU_ records per page",
+                          "t-info": "Showing _START_ to _END_ of _TOTAL_ records",
+                          "t-infoEmpty": "No records to show",
+                          "t-infoFiltered": "(filtered from _MAX_ total records)",
+                          "t-zeroRecords": "No matching records found",
+                          "paginate": {
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Previous"
+                          }
                 },
                 ajax: {
                     url: '/api/GetShipments', // API endpoint URL (POST isteği ile)
@@ -93,9 +86,13 @@
                         render: function (data, type, row) {
                             return `
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-success waves-effect waves-light details-btn" data-id="${data}">
-                                        <i class="bx bx-search-alt font-size-20 align-middle me-2"></i> Ayrıntılar
-                                    </button>
+                                        <button type="button" class="btn btn-success waves-effect waves-light details-btn"  data-id="${data}">
+                                                <i class=\"bx bx-search-alt font-size-17 align-middle me-2\"></i> <b data-key="t-details2">Ayrıntılar</b>
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger waves-effect waves-light delete-btn"  data-id="${data}">
+                                                    <i class=\"dripicons-cross font-size-17 align-middle me-2\"></i> <b data-key="t-delete">Sil</b>
+                                        </button>
                                 </div>
                             `;
                         }
@@ -104,10 +101,10 @@
                 lengthChange: false,
                 dom: 'Bfrtip', // DataTable butonları için gerekli
                 buttons: [
-                    { extend: 'copy', text: 'Kopyala' },  // 🔹 "Copy" butonunu "Kopyala" olarak değiştir
-                    { extend: 'excel', text: 'Excel İndir' }, // 🔹 "Excel" butonunu "Excel İndir" olarak değiştir
-                    { extend: 'pdf', text: 'PDF İndir' }, // 🔹 "PDF" butonunu "PDF İndir" olarak değiştir
-                    { extend: 'colvis', text: 'Sütunları Düzenle' } // 🔹 "Column visibility" butonu güncellendi
+                    { extend: 'copy', text: 'Copy' },  // 🔹 "Copy" butonunu "Kopyala" olarak değiştir
+                    { extend: 'excel', text: 'Excel' }, // 🔹 "Excel" butonunu "Excel İndir" olarak değiştir
+                    { extend: 'pdf', text: 'PDF' }, // 🔹 "PDF" butonunu "PDF İndir" olarak değiştir
+                    { extend: 'colvis', text: 'Edit' } // 🔹 "Column visibility" butonu güncellendi
                 ],
                 initComplete: function () {
                     table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
@@ -115,8 +112,8 @@
                     // "Yeni Sevkiyat Ekle" butonunu en sağa hizalı ekleyelim
                     $('.col-md-6:eq(0)').after(`
                         <div class="col-sm-12 col-md-6 text-end">
-                            <button id="NewShipmentButton" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Yeni Sevkiyat Ekle
+                                <button id="NewShipmentButton" class="btn btn-primary" >
+                                <i class="fas fa-plus"></i> <b data-key="t-shipment-add">Yeni Sevkiyat Ekle</b>
                             </button>
                         </div>
                         <br>
@@ -168,8 +165,15 @@
                 }
             });
         }
-    </script>
 
+             
+
+    </script>
+        <script src="~/assets/js/app.js"></script>
+
+    
+
+    
 
 }
 

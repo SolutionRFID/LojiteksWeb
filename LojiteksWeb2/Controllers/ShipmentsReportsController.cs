@@ -45,5 +45,40 @@ namespace LojiteksWeb.Controllers
 
             return Json(new { data = shipmentsData });
         }
+
+        [HttpDelete("/api/DeleteShipment")]
+        public IActionResult DeleteShipment(string po)
+        {
+            try
+            {
+                // Kullanıcı oturum bilgisini al
+                var userJson = HttpContext.Session.GetString("Sessions");
+                if (string.IsNullOrEmpty(userJson))
+                {
+                    return Unauthorized(new { message = "Oturum süresi doldu, lütfen tekrar giriş yapın." });
+                }
+
+                var SessionUsers = JsonSerializer.Deserialize<Sessions>(userJson);
+
+                // PO numarasına göre sevkiyatı bul
+                var shipment = _context.TblBaslik
+                    .FirstOrDefault(b => b.Bkno == Convert.ToInt64(po));
+
+                if (shipment == null)
+                {
+                    return NotFound(new { message = "Sevkiyat bulunamadı." });
+                }
+
+                // Sevkiyatı veritabanından kaldır
+                _context.TblBaslik.Remove(shipment);
+                _context.SaveChanges();
+
+                return Ok(new { message = "Sevkiyat başarıyla silindi." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Silme işlemi sırasında hata oluştu.", error = ex.Message });
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <p class="text-muted fw-medium">Toplam Sevkiyat</p>
+                        <p class="text-muted fw-medium" data-key="t-total-shipments">Toplam Sevkiyat</p>
                         <h4 class="mb-0" id="toplamSevkiyat">0</h4> <!-- 📌 Dinamik Güncellenecek -->
                     </div>
                     <div class="flex-shrink-0 align-self-center">
@@ -34,7 +34,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <p class="text-muted fw-medium">Toplam Koli</p>
+                        <p class="text-muted fw-medium" data-key="t-total-boxes">Toplam Koli</p>
                         <h4 class="mb-0" id="toplamKoli">0</h4> <!-- 📌 Dinamik Güncellenecek -->
                     </div>
                     <div class="flex-shrink-0 align-self-center ">
@@ -55,7 +55,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <p class="text-muted fw-medium">Toplam Ürün</p>
+                        <p class="text-muted fw-medium" data-key="t-total-products">Toplam Ürün</p>
                         <h4 class="mb-0" id="toplamUrun">0</h4> <!-- 📌 Dinamik Güncellenecek -->
                     </div>
                     <div class="flex-shrink-0 align-self-center">
@@ -71,37 +71,37 @@
     </div>
 </div>
 
-        
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Son 6 Aylık Gönderilen Ürün Adedi</h4>
-                        <div id="spline_area" data-colors='["--bs-primary", "--bs-success"]' class="apex-charts" dir="ltr"></div>
-                    </div>
-                </div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4" data-key="t-last-6-months-products">Son 6 Aylık Gönderilen Ürün Adedi</h4>
+                <div id="spline_area" data-colors='["--bs-primary", "--bs-success"]' class="apex-charts" dir="ltr"></div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Son 6 Aylık Sevkiyat Özeti</h4>
-                        <div id="pie_chart" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Son 6 Aylık Kapatılan Sevkiyatlar</h4>
-                        <div id="pie_chart2" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4" data-key="t-last-6-months-summary">Son 6 Aylık Sevkiyat Özeti</h4>
+                <div id="pie_chart" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
             </div>
         </div>
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4" data-key="t-last-6-months-closed-shipments">Son 6 Aylık Kapatılan Sevkiyatlar</h4>
+                <div id="pie_chart2" data-colors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning",  "--bs-secondary"]' class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

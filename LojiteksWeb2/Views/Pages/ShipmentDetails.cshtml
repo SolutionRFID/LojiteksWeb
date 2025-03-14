@@ -26,7 +26,7 @@
                     </svg>
                 </div>
 
-                <p class="text-muted">Koli İçi Adet Raporu</p>
+                <p class="text-muted" data-key="t-box-content-qty">Koli İçi Adet Raporu</p>
             </div>
             <div class="card-footer bg-transparent border-top">
                 <div class="contact-links d-flex font-size-20">
@@ -34,7 +34,7 @@
                         <a href="javascript: void(0);" id="copyQTYBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
-                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                        <a href="javascript: void(0);" id="pdfQTYBtn"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
                         <a href="javascript: void(0);" id="excelQTYBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
@@ -59,7 +59,7 @@
                     </svg>
                 </div>
 
-                <p class="text-muted">Koli İçi UPC Raporu</p>
+                <p class="text-muted" data-key="t-box-content-upc">Koli İçi UPC Raporu</p>
             </div>
             <div class="card-footer bg-transparent border-top">
                 <div class="contact-links d-flex font-size-20">
@@ -67,7 +67,7 @@
                         <a href="javascript: void(0);" id="copyUPCBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
-                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                        <a href="javascript: void(0);" id="pdfUPCBtn"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
                         <a href="javascript: void(0);" id="excelUPCBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
@@ -92,7 +92,7 @@
                     </svg>
                 </div>
 
-                <p class="text-muted">Koli İçi Beden Raporu</p>
+                <p class="text-muted" data-key="t-box-content-size">Koli İçi Beden Raporu</p>
             </div>
             <div class="card-footer bg-transparent border-top">
                 <div class="contact-links d-flex font-size-20">
@@ -100,7 +100,7 @@
                         <a href="javascript: void(0);" id="copySizeBtn"><i class="mdi mdi-content-copy custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
-                        <a href="javascript: void(0);"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
+                        <a href="javascript: void(0);" id="pdfSizeBtn"><i class="mdi mdi-file-pdf-outline custom-icon-effect" style="font-size: 35px"></i></a>
                     </div>
                     <div class="flex-fill">
                         <a href="javascript: void(0);"id="excelSizeBtn"><i class="mdi mdi-microsoft-excel custom-icon-effect" style="font-size: 35px"></i></a>
@@ -124,7 +124,7 @@
                         <path d="M292.93,236.79c3.22,2.5,5.18,5.86,5.86,10.13l-9.7.91c-1.01-4.37-3.7-6.58-8.06-6.58-5.42,0-8.88,4.08-8.88,10.27,0,6.58,3.65,10.27,8.88,10.27,4.22,0,7.25-2.3,8.06-6.58l9.7.82c-.67,4.27-2.64,7.68-5.86,10.23-3.22,2.5-7.1,3.74-11.57,3.74-5.52,0-9.99-1.68-13.49-4.99-3.46-3.31-5.18-7.82-5.18-13.49s1.73-10.18,5.18-13.49c3.5-3.31,7.97-4.99,13.49-4.99,4.46,0,8.35,1.25,11.57,3.75Z" fill="currentColor"/>
                     </svg>
                 </div>
-                <p class="text-muted">Koli İçi EPC Raporu</p>
+                <p class="text-muted" data-key="t-box-content-epc">Koli İçi EPC Raporu</p>
             </div>
             <div class="card-footer bg-transparent border-top">
                 <div class="contact-links d-flex font-size-20">
@@ -151,7 +151,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Koli Listesi</h4>
+        <h4 class="card-title" data-key="t-box-list">Koli Listesi</h4>
         <p class="card-title-desc">
             
         </p>
@@ -173,11 +173,11 @@
                     <table id="datatable-nesting" class="table table-hover mb-0 align-middle ">
                         <thead class="table-light">
                             <tr>
-                                <th>View Details</th> <!-- 📌 EPC detaylarını açan buton -->
-                                <th>Koli No</th>
-                                <th>Barkod</th>
-                                <th>Adet</th>
-                                <th>Okuma Tarihi</th>
+                                <th data-key="t-view-details">Ayrıntılar</th>
+                                <th data-key="t-box-no">Koli No</th>
+                                <th data-key="t-barcode">Barkod</th>
+                                <th data-key="t-quantity">Adet</th>
+                                <th data-key="t-reading-date">Okuma Tarihi</th>
                                 
                             </tr>
                         </thead>
@@ -273,17 +273,17 @@
             $(document).ready(function () {
                 $('#datatable-nesting').DataTable({
                     "language": {
-                        "search": "Arama:",  // Search kutusunun adını değiştir
-                        "lengthMenu": "Sayfa başına _MENU_ kayıt göster",
-                        "info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
-                        "infoEmpty": "Gösterilecek kayıt yok",
-                        "infoFiltered": "(_MAX_ kayıt içerisinden filtrelendi)",
-                        "zeroRecords": "Eşleşen kayıt bulunamadı",
+                        "search": "Search:",  // Change the name of the search box
+                        "lengthMenu": "Show _MENU_ records per page",
+                        "info": "Showing _START_ to _END_ of _TOTAL_ records",
+                        "infoEmpty": "No records available",
+                        "infoFiltered": "(filtered from _MAX_ total records)",
+                        "zeroRecords": "No matching records found",
                         "paginate": {
-                            "first": "İlk",
-                            "last": "Son",
-                            "next": "Sonraki",
-                            "previous": "Önceki"
+                            "first": "First",
+                            "last": "Last",
+                            "next": "Next",
+                            "previous": "Previous"
                         }
                     }
                 });
@@ -317,7 +317,7 @@
                     });
 
                     if (!found) {
-                        epcRows = "<tr><td colspan='3' class='text-warning'>Bu koli için EPC bulunmamaktadır.</td></tr>";
+                        epcRows = "<tr><td colspan='3' class='text-warning' data-key='t-notfound-epc'>Bu koli için EPC bulunmamaktadır.</td></tr>";
                     }
 
                     return epcRows;
@@ -365,8 +365,7 @@
                 });
             }
         });
-    </script>
-    <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             let copyEPCBtn = document.getElementById("copySizeBtn");
 
@@ -419,8 +418,7 @@
                 });
             }
         });
-    </script>
-    <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             let copyEPCBtn = document.getElementById("copyUPCBtn");
 
@@ -473,8 +471,7 @@
                 });
             }
         });
-        </script>    
-        <script>
+
             document.addEventListener("DOMContentLoaded", function () {
                 let copyEPCBtn = document.getElementById("copyQTYBtn");
 
@@ -491,17 +488,13 @@
                         }
 
                         let text = "Koli No\tBarkod\tAdet\tOkuma Tarihi\n";
-
-                        epcData.forEach(item => {
+                        let i = 0;
+                        epcData.forEach(item => 
+                        {
                             text += `${item.boxNo}\t${item.boxBarcode}\t${item.boxInCount}\t${item.readingDate}\n`;
-
-
-                                if (Array.isArray(item.epcList)) {
-                                    text += `\tToplam EPC: ${item.epcList.length}\n`;
-                                } else {
-                                         text += "\t(EPC bilgisi yok)\n";
-                                }
+                            i += item.boxInCount;
                         });
+                        text += `\tToplam EPC: ${i}\n`;
 
                         let textarea = document.createElement("textarea");
                         textarea.value = text;
@@ -516,7 +509,339 @@
             });
         </script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+            var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+            if (!Array.isArray(epcData)) {
+                alert("EPC verileri düzgün yüklenemedi!");
+                console.error("Hata: EPC verileri array değil!", epcData);
+                return;
+            }
+
+            // 📌 1. EPC Detayları (Tüm EPC verileri)
+            let epcDetailsBtn = document.getElementById("excelEPCBtn");
+            if (epcDetailsBtn) {
+                epcDetailsBtn.addEventListener("click", function () {
+                    let detailsData = [["Koli No", "Barkod", "Adet", "Okuma Tarihi"]];
+                    let grandTotal = 0; // **Toplam adet sayısı**
+                    epcData.forEach(item => {
+                        let koliToplam = 0;
+                        detailsData.push([item.boxNo, item.boxBarcode, item.boxInCount, item.readingDate]);
+
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                detailsData.push(["", `${epc.epc}`, "", ""]);
+                                koliToplam++;
+                                grandTotal += 1; // **Toplam adeti hesapla**
+                            });
+
+                            // **📌 Koli içindeki toplam EPC adeti ekleniyor**
+                            detailsData.push(["", "Toplam Koli İçindeki EPC", koliToplam, ""]);
+                        }
+                    });
+                    detailsData.push(["", "Toplam EPC", grandTotal, ""]);
+                    let workbook = XLSX.utils.book_new();
+                    let detailsSheet = XLSX.utils.aoa_to_sheet(detailsData);
+                    XLSX.utils.book_append_sheet(workbook, detailsSheet, "EPC Details");
+
+                    XLSX.writeFile(workbook, "EPC_Ozet.xlsx");
+                });
+            }
+
+            // 📌 2. UPC Özet (UPC'ye göre gruplama)
+            let upcSummaryBtn = document.getElementById("excelUPCBtn");
+            if (upcSummaryBtn) {
+                upcSummaryBtn.addEventListener("click", function () {
+                        let upcSummaryData = [["Koli No", "UPC", "Adet", "Okuma Tarihi"]];
+                        let grandTotal = 0; // **Toplam adet sayısı**
+                    epcData.forEach(item => {
+                        let upcCounts = {};
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                upcCounts[epc.upc] = (upcCounts[epc.upc] || 0) + 1;
+                                grandTotal += 1; // **Toplam adeti hesapla**
+                            });
+
+                            Object.data-keys(upcCounts).forEach(upc => {
+                                upcSummaryData.push([item.boxNo, upc, upcCounts[upc], item.readingDate]);
+                            });
+                        }
+                    });
+                    upcSummaryData.push(["", "Toplam", grandTotal, ""]);
+                    let workbook = XLSX.utils.book_new();
+                    let upcSheet = XLSX.utils.aoa_to_sheet(upcSummaryData);
+                    XLSX.utils.book_append_sheet(workbook, upcSheet, "UPC");
+                    XLSX.writeFile(workbook, "UPC_Ozet.xlsx");
+                });
+            }
+
+            // 📌 3. Beden Özet (Beden bazında gruplama)
+            let sizeSummaryBtn = document.getElementById("excelSizeBtn");
+            if (sizeSummaryBtn) {
+                sizeSummaryBtn.addEventListener("click", function () {
+                    let sizeSummaryData = [["Koli No", "Beden", "Adet", "Okuma Tarihi"]];
+                    let grandTotal = 0; // **Toplam adet sayısı**
+                    epcData.forEach(item => {
+                        let sizeCounts = {};
+                        if (Array.isArray(item.epcList)) {
+                            item.epcList.forEach(epc => {
+                                sizeCounts[epc.size] = (sizeCounts[epc.size] || 0) + 1;
+                                grandTotal += 1; // **Toplam adeti hesapla**
+                            });
+
+                            Object.data-keys(sizeCounts).forEach(size => {
+                                    sizeSummaryData.push([item.boxNo, size, sizeCounts[size], item.readingDate]);
+                            });
+                        } 
+                        
+                    });
+                    sizeSummaryData.push(["", "Toplam", grandTotal, ""]);
+                    let workbook = XLSX.utils.book_new();
+                    let sizeSheet = XLSX.utils.aoa_to_sheet(sizeSummaryData);
+                    XLSX.utils.book_append_sheet(workbook, sizeSheet, "Size Summary");
+                    XLSX.writeFile(workbook, "Beden_Ozet.xlsx");
+                });
+            }
+
+            // 📌 4. Toplam EPC Sayısı
+            let totalQtyBtn = document.getElementById("excelQTYBtn");
+
+            if (totalQtyBtn) {
+                totalQtyBtn.addEventListener("click", function () {
+                    let totalEpcData = [["Koli No", "Adet", "Okuma Tarihi"]]; 
+                    let grandTotal = 0; // **Genel toplam EPC sayısı**
+
+                    epcData.forEach(item => {
+                        let koliToplam = item.boxInCount; // **Koli içindeki toplam EPC adeti**
+                        totalEpcData.push([item.boxNo, koliToplam, item.readingDate]);
+                        grandTotal += koliToplam; // **Genel toplamı hesapla**
+                    });
+
+                    // **📌 En alt satıra genel toplamı ekleyelim**
+                    totalEpcData.push(["", "Genel Toplam", grandTotal, ""]);
+
+                    let workbook = XLSX.utils.book_new();
+                    let totalSheet = XLSX.utils.aoa_to_sheet(totalEpcData);
+                    XLSX.utils.book_append_sheet(workbook, totalSheet, "Total EPC Count");
+
+                    XLSX.writeFile(workbook, "Koli_Ozet.xlsx");
+                });
+            }
+
+
+
+
+
+        });
+
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+        <script>
+               document.addEventListener("DOMContentLoaded", function () {
+        var epcData = @Html.Raw(Json.Serialize(Model)) || [];
+
+        if (!Array.isArray(epcData)) {
+            alert("EPC verileri düzgün yüklenemedi!");
+            console.error("Hata: EPC verileri array değil!", epcData);
+            return;
+        }
+
+        // 📌 **Genel PDF Oluşturma Fonksiyonu**
+        function generatePDF(docDefinition, fileName) {
+            pdfMake.createPdf(docDefinition).download(fileName);
+        }
+
+        // 📌 **1. EPC Detayları (Tüm EPC Verileri)**
+        let epcDetailsPdfBtn = document.getElementById("pdfEPCBtn");
+        if (epcDetailsPdfBtn) {
+            epcDetailsPdfBtn.addEventListener("click", function () {
+                let tableBody = [];
+                let grandTotal = 0;
+
+                epcData.forEach(item => {
+                    let koliToplam = 0;
+                    tableBody.push([
+                        item.boxNo,
+                        item.boxBarcode,
+                        item.boxInCount,
+                        item.readingDate
+                    ]);
+
+                    if (Array.isArray(item.epcList)) {
+                        item.epcList.forEach(epc => {
+                            tableBody.push(["", epc.epc, "", ""]);
+                            koliToplam++;
+                            grandTotal++;
+                        });
+
+                        tableBody.push(["", "Toplam Koli İçindeki EPC", koliToplam, ""]);
+                    }
+                });
+
+                tableBody.push(["", "Toplam EPC", grandTotal, ""]);
+
+                let docDefinition = {
+                    content: [
+                        { text: "EPC Detayları Raporu", style: "header" },
+                        {
+                            table: {
+                                headerRows: 1,
+                                widths: ["auto", "auto", "auto", "auto"],
+                                body: [
+                                    ["Koli No", "Barkod", "Adet", "Okuma Tarihi"],
+                                    ...tableBody
+                                ]
+                            }
+                        }
+                    ],
+                    styles: {
+                        header: { fontSize: 18, bold: true }
+                    }
+                };
+
+                generatePDF(docDefinition, "EPC_Ozet.pdf");
+            });
+        }
+
+        // 📌 **2. UPC Özet (UPC'ye göre gruplama)**
+        let upcSummaryPdfBtn = document.getElementById("pdfUPCBtn");
+        if (upcSummaryPdfBtn) {
+            upcSummaryPdfBtn.addEventListener("click", function () {
+                let tableBody = [];
+                let grandTotal = 0;
+
+                epcData.forEach(item => {
+                    let upcCounts = {};
+                    if (Array.isArray(item.epcList)) {
+                        item.epcList.forEach(epc => {
+                            upcCounts[epc.upc] = (upcCounts[epc.upc] || 0) + 1;
+                            grandTotal++;
+                        });
+
+                        Object.data-keys(upcCounts).forEach(upc => {
+                            tableBody.push([item.boxNo, upc, upcCounts[upc], item.readingDate]);
+                        });
+                    }
+                });
+
+                tableBody.push(["", "Toplam", grandTotal, ""]);
+
+                let docDefinition = {
+                    content: [
+                        { text: "UPC Özet Raporu", style: "header" },
+                        {
+                            table: {
+                                headerRows: 1,
+                                widths: ["auto", "auto", "auto", "auto"],
+                                body: [
+                                    ["Koli No", "UPC", "Adet", "Okuma Tarihi"],
+                                    ...tableBody
+                                ]
+                            }
+                        }
+                    ]
+                };
+
+                generatePDF(docDefinition, "UPC_Ozet.pdf");
+            });
+        }
+
+        // 📌 **3. Beden Özet (Beden bazında gruplama)**
+        let sizeSummaryPdfBtn = document.getElementById("pdfSizeBtn");
+        if (sizeSummaryPdfBtn) {
+            sizeSummaryPdfBtn.addEventListener("click", function () {
+                let tableBody = [];
+                let grandTotal = 0;
+
+                epcData.forEach(item => {
+                    let sizeCounts = {};
+                    if (Array.isArray(item.epcList)) {
+                        item.epcList.forEach(epc => {
+                            sizeCounts[epc.size] = (sizeCounts[epc.size] || 0) + 1;
+                            grandTotal++;
+                        });
+
+                        Object.data-keys(sizeCounts).forEach(size => {
+                            tableBody.push([item.boxNo, size, sizeCounts[size], item.readingDate]);
+                        });
+                    }
+                });
+
+                tableBody.push(["", "Toplam", grandTotal, ""]);
+
+                let docDefinition = {
+                    content: [
+                        { text: "Beden Özet Raporu", style: "header" },
+                        {
+                            table: {
+                                headerRows: 1,
+                                widths: ["auto", "auto", "auto", "auto"],
+                                body: [
+                                    ["Koli No", "Beden", "Adet", "Okuma Tarihi"],
+                                    ...tableBody
+                                ]
+                            }
+                        }
+                    ]
+                };
+
+                generatePDF(docDefinition, "Beden_Ozet.pdf");
+            });
+        }
+
+        // 📌 **4. Toplam EPC Sayısı**
+        let totalQtyPdfBtn = document.getElementById("pdfQTYBtn");
+        if (totalQtyPdfBtn) {
+            totalQtyPdfBtn.addEventListener("click", function () {
+                let tableBody = [];
+                let grandTotal = 0;
+
+                epcData.forEach(item => {
+                    let koliToplam = item.boxInCount || 0; // **Boş değerleri 0 yap**
+                    tableBody.push([
+                        item.boxNo || "N/A", // **Boş olanları 'N/A' yap**
+                        koliToplam,
+                        item.readingDate || "Tarih Yok"
+                    ]);
+                    grandTotal += koliToplam;
+                });
+
+                tableBody.push(["", "Genel Toplam", grandTotal]);
+
+                let docDefinition = {
+                    content: [
+                        { text: "Toplam EPC Raporu", style: "header" },
+                        {
+                            table: {
+                                headerRows: 1,
+                                widths: ["auto", "auto", "auto"], // **Genişlikleri kesin tanımla**
+                                body: [
+                                    ["Koli No", "Adet", "Okuma Tarihi"],
+                                    ...tableBody
+                                ]
+                            },
+                            layout: 'lightHorizontalLines' // **Tablo stilini düzelt**
+                        }
+                    ],
+                    styles: {
+                        header: { fontSize: 18, bold: true }
+                    }
+                };
+
+                pdfMake.createPdf(docDefinition).download("Koli_Ozet.pdf");
+            });
+        }
+
+    });
+
+
+        </script>
 
 }
 

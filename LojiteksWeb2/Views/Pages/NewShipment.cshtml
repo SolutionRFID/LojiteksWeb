@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Sevkiyat Ekle ";
-    ViewData["Desc"] = "Sevkiyat Ekle ";
+    ViewData["Title"] = "Sevkiyat Ekle";
+    ViewData["Desc"] = "Sevkiyat Ekle";
     ViewBag.pTitle = "Sevkiyat Ekle";
     ViewBag.pageTitle = "Sevkiyat Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,57 +11,50 @@
     <div class="card">
         <div class="card-body">
 
-            <h4 class="card-title">Yeni Sevkiyat</h4>
+            <h4 class="card-title" data-key="t-new-shipment">Yeni Sevkiyat</h4>
             <p class="card-title-desc"></p>
             <div class="row">
                 <form id="shipmentForm">
                     <div class="mb-3 row">
-                        <label for="poNumber" class="col-md-1 col-form-label">PO Numarası</label>
+                        <label for="poNumber" class="col-md-1 col-form-label" data-key="t-po-number">PO Numarası</label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="poNumber" name="poNumber" required>
                         </div>
 
-                        <label for="description" class="col-md-1 col-form-label">Açıklama</label>
+                        <label for="description" class="col-md-1 col-form-label" data-key="t-description">Açıklama</label>
                         <div class="col-md-5">
                             <input class="form-control" type="text" id="description" name="description" required>
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="shipmentQuantity" class="col-md-1 col-form-label">Sevkiyat Adeti</label>
+                        <label for="shipmentQuantity" class="col-md-1 col-form-label" data-key="t-shipment-quantity">Sevkiyat Adeti</label>
                         <div class="col-md-3">
                             <input class="form-control" type="number" id="shipmentQuantity" name="shipmentQuantity" value="1" placeholder="Enter Number" required>
                         </div>
 
-                        <label for="shipmentDate" class="col-md-1 col-form-label">Sevkiyat Tarihi</label>
+                        <label for="shipmentDate" class="col-md-1 col-form-label" data-key="t-shipment-date">Sevkiyat Tarihi</label>
                         <div class="col-md-3">
                             <input class="form-control" type="date" id="shipmentDate" name="shipmentDate" required>
                         </div>
 
-                        <label for="customerSelect" class="col-md-1 col-form-label">Müşteri Seç</label>
+                        <label for="customerSelect" class="col-md-1 col-form-label" data-key="t-select-customer">Müşteri Seç</label>
                         <div class="col-md-3">
                             <select class="form-select" id="customerSelect" name="customer" required>
-                                <option value="">Müşteri Seçiniz</option>
+                                <option value="" data-key="t-select-customer-placeholder">Müşteri Seçiniz</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                        <button type="submit" class="btn btn-primary" data-key="t-save">Kaydet</button>
                     </div>
                 </form>
             </div>
-
-
-
-
-
         </div>
     </div> <!-- end card -->
   </div> <!-- end col-12 -->
 </div>
-
-
 
 @section scripts {
         <script src="~/assets/js/app.js"></script>

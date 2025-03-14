@@ -37,21 +37,43 @@ File: Main Js File
             }
             localStorage.setItem('language', lang);
             language = localStorage.getItem('language');
+
             getLanguage();
+
         }
     }
 
     // Multi language setting
     function getLanguage() {
-        (language == null) ? setLanguage(default_lang) : false;
-        $.getJSON('/assets/lang/' + language + '.json', function (lang) {
-            $('html').attr('lang', language);
-            $.each(lang, function (index, val) {
-                (index === 'head') ? $(document).attr("title", val['title']) : false;
-                $("[key='" + index + "']").text(val);
+        if (!language) {
+            setLanguage(default_lang); // Eðer dil seçili deðilse, varsayýlaný ata
+        }
+
+        $.getJSON(`/assets/lang/${language}.json`)
+            .done(function (lang) {
+                console.log(`Dil dosyasý (${language}) baþarýyla yüklendi.`);
+
+                $('html').attr('lang', language);
+
+                // Sayfa baþlýðýný deðiþtir
+                if (lang.head && lang.head.title) {
+                    $(document).attr("title", lang.head.title);
+                }
+
+                // Tüm çevirileri güncelle
+                $("[data-key]").each(function () {
+                    let key = $(this).data("key");
+                    if (lang[key]) {
+                        $(this).html(lang[key]);
+                    }
+                });
+                
+            })
+            .fail(function () {
+                console.error(`Dil dosyasý yüklenemedi: /assets/lang/${language}.json`);
             });
-        });
     }
+
 
     function initMetisMenu() {
         //metis menu
@@ -306,7 +328,12 @@ File: Main Js File
     function initLanguage() {
         // Auto Loader
         if (language != null && language !== default_lang)
-            setLanguage(language);
+            document.addEventListener("DOMContentLoaded", function () {
+                window.onload = function () {
+                    setLanguage(language);
+                };
+            });
+
         $('.language').on('click', function (e) {
             setLanguage($(this).attr('data-lang'));
         });

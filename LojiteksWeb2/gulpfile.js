@@ -1,4 +1,4 @@
-const del = require('del');
+﻿const del = require('del');
 const gulp = require('gulp');
 const npmdist = require('gulp-npm-dist');
 const rename = require('gulp-rename');
@@ -32,7 +32,8 @@ const paths = {
             dir: './wwwroot/assets/scss',
             files: './wwwroot/assets/scss/**/*',
             main: './wwwroot/assets/scss/*.scss'
-        }
+        },
+
     }
 };
 

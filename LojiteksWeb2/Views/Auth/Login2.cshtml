@@ -28,29 +28,35 @@
                                     <div class="text-center">
                                         <h4 class="mb-3">
                                             <i class="bx bxs-quote-alt-left text-primary h1 align-middle me-3"></i>
-                                            <span class="text-primary">Lojiteks</span> Projemiz ile Tekstil Lojistiğini kaydediyoruz.
+                                            <span class="text-primary">Lojiteks</span> 
+                                            <span data-key="t-project-intro">Projemiz ile Tekstil Lojistiğini kaydediyoruz.</span>
                                         </h4>
 
                                         <div dir="ltr">
                                             <div class="owl-carousel owl-theme auth-review-carousel" id="auth-review-carousel">
                                                 <div class="item">
                                                     <div class="py-3">
-                                                        <p class="font-size-16 mb-4">   RFID kullanarak gönderilerinizi müşterilere göndermeden önce, paket kapaklarını açmadan saniyeler içinde içerideki ürünlerin renk, beden, model ve miktar gibi tüm detaylarını görebilir ve kontrol edebilirsiniz.</p>
+                                                        <p class="font-size-16 mb-4" data-key="t-carousel-text-1">
+                                                            RFID kullanarak gönderilerinizi müşterilere göndermeden önce, paket kapaklarını açmadan saniyeler içinde içerideki ürünlerin renk, beden, model ve miktar gibi tüm detaylarını görebilir ve kontrol edebilirsiniz.
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="item">
                                                     <div class="py-3">
-                                                        <p class="font-size-16 mb-4">   Müşteri bazlı gönderilerinizi raporluyoruz; sevkiyattaki kaç adet koli/askı ve kutuların içinde kaç adet ürün olduğunu, ayrıca müşteri etiketlerinin kimlik numaralarıyla birlikte sağlıyoruz.</p>
+                                                        <p class="font-size-16 mb-4" data-key="t-carousel-text-2">
+                                                            Müşteri bazlı gönderilerinizi raporluyoruz; sevkiyattaki kaç adet koli/askı ve kutuların içinde kaç adet ürün olduğunu, ayrıca müşteri etiketlerinin kimlik numaralarıyla birlikte sağlıyoruz.
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="item">
                                                     <div class="py-3">
-                                                        <p class="font-size-16 mb-4">   Bu detayları raporlayarak, lojistik operasyonlarında insan hatalarını önlemenize yardımcı oluyor ve böylece yanlış sevkiyatları engelliyoruz.</p>
+                                                        <p class="font-size-16 mb-4" data-key="t-carousel-text-3">
+                                                            Bu detayları raporlayarak, lojistik operasyonlarında insan hatalarını önlemenize yardımcı oluyor ve böylece yanlış sevkiyatları engelliyoruz.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <!-- ✅ Sol Tarafın En Altına Eklenen "TEAM" Bölümü -->
                                         <section class="section" id="team">
@@ -59,11 +65,11 @@
                                                     <div class="owl-carousel owl-theme events navs-carousel" id="team-carousel">
                                                         @for (int i = 1; i <= 13; i++)
                                                         {
-                                                            <div class="item">
-                                                                <div class="card text-center team-box">
-                                                                    <img src="@Url.Content($"~/assets/logo/firm_logo/logo_{i}.jpg")" alt="Logo @i" class="rounded">
+                                                                <div class="item">
+                                                                    <div class="card text-center team-box">
+                                                                        <img src="@Url.Content($"~/assets/logo/firm_logo/logo_{i}.jpg")" alt="Logo @i" class="rounded">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
                                                         }
                                                     </div>
                                                 </div>
@@ -88,56 +94,84 @@
                             <a href="@Url.Action("Index", "Dashboard")" class="d-block card-logo">
                                 <img src="@Url.Content("~/assets/logo/Logo-2Color.svg")" alt="" height="175" class="card-logo-dark" />
                             </a>
-
                         </div>
+
                         <div class="my-auto">
                             <div>
-                                <h5 class="text-primary">Tekrar Hoşgeldin!</h5>
+                                <div class="dropdown d-inline-block">
+                                    <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img id="header-lang-img" src="~/assets/images/flags/turkey.jpg" alt="Header Language" height="16">
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="tr">
+                                            <img src="~/assets/images/flags/turkey.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-tr">Türkçe</span>
+                                        </a>
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="en">
+                                            <img src="~/assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-en">English</span>
+                                        </a>
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp">
+                                            <img src="~/assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-sp">Spanish</span>
+                                        </a>
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr">
+                                            <img src="~/assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-gr">German</span>
+                                        </a>
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it">
+                                            <img src="~/assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-it">Italian</span>
+                                        </a>
+                                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru">
+                                            <img src="~/assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle" data-key="t-language-ru">Russian</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <h5 class="text-primary" data-key="t-welcome-back">Tekrar Hoşgeldin!</h5>
                                 <p></p> <!-- Boş bırakıldı -->
                             </div>
 
                             <!-- Hata Mesajı İçin Bootstrap Alert -->
                             @if (ViewBag.ErrorMessage != null)
                             {
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     @ViewBag.ErrorMessage
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
                             }
 
                             <div class="mt-4">
-                                <!-- Form: Kullanıcı girişi AuthController'ın Login2 POST metoduna gönderilecek -->
+                                <!-- Kullanıcı Girişi Formu -->
                                 <form asp-action="Login2" method="post">
                                     <div class="mb-3">
-                                        <label asp-for="KullaniciAdi" class="form-label">Kullanıcı Adı</label>
-                                        <input asp-for="KullaniciAdi" class="form-control" placeholder="Kullanıcı adı giriniz" />
+                                        <label asp-for="KullaniciAdi" class="form-label" data-key="t-username">Kullanıcı Adı</label>
+                                        <input asp-for="KullaniciAdi" class="form-control" placeholder="" data-key="t-enter-username" />
                                         <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
                                     </div>
 
                                     <div class="mb-3">
-
-                                        <label asp-for="Sifre" class="form-label">Şifre</label>
+                                        <label asp-for="Sifre" class="form-label" data-key="t-password">Şifre</label>
                                         <div class="input-group auth-pass-inputgroup">
-                                            <input asp-for="Sifre" class="form-control" placeholder="Şifre giriniz" type="password" aria-label="Password" aria-describedby="password-addon" />
+                                            <input asp-for="Sifre" class="form-control" placeholder="" type="password" aria-label="Password" aria-describedby="password-addon" data-key="t-enter-password"/>
                                             <button class="btn btn-light" type="button" id="password-addon">
                                                 <i class="mdi mdi-eye-outline"></i>
                                             </button>
                                         </div>
                                         <span asp-validation-for="Sifre" class="text-danger"></span>
                                     </div>
+
                                     <div class="mb-3">
-                                        <a href="@Url.Action("Recoverpw2", "Auth")" class="text-muted">Şifremi unuttum!</a>
+                                        <a href="@Url.Action("Recoverpw2", "Auth")" class="text-muted" data-key="t-forgot-password">Şifremi unuttum!</a>
                                     </div>
 
                                     <div class="mt-3 d-grid">
-                                        <button class="btn btn-primary waves-effect waves-light" type="submit">Giriş Yap</button>
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit" data-key="t-login">Giriş Yap</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="mt-4 mt-md-5 text-center">
                             <p class="mb-0">
-                                © <script>document.write(new Date().getFullYear())</script> Lojiteks. Crafted with <i class="mdi mdi-heart text-danger"></i> by SolutionRFID
+                                © <script>document.write(new Date().getFullYear())</script> Lojiteks. 
+                                <span data-key="t-crafted-by">Crafted with</span> 
+                                <i class="mdi mdi-heart text-danger"></i> 
+                                <span data-key="t-by-company">by SolutionRFID</span>
                             </p>
                         </div>
                     </div>
@@ -148,6 +182,7 @@
     </div>
     <!-- end row -->
 </div>
+
 
 @section scripts {
     <!-- owl.carousel js -->
