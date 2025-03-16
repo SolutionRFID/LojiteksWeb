@@ -140,7 +140,7 @@ namespace LojiteksWeb.Controllers
                     })
                     .Select(g => new
                     {
-                        Ay = g.Key.Tarih.ToDateTime(TimeOnly.MinValue).ToString("MMMM"), // 📌 Ay ismi
+                        Ay = g.Key.Tarih.ToDateTime(TimeOnly.MinValue).ToString("MM.yyyy"), // 📌 "MM.yyyy" formatı
                         YilAy = g.Key.Tarih.ToString("yyyy-MM"), // 📌 Ayı karşılaştırma için (2024-02 gibi)
                         EPCAdet = g.Count() // 📌 EPC adeti
                     })
@@ -149,10 +149,9 @@ namespace LojiteksWeb.Controllers
                 // 📌 Son 6 Ayın Tam Listesi ile Verileri Eşleştir
                 var finalData = sixMonths.Select(date => new
                 {
-                    Ay = date.ToDateTime(TimeOnly.MinValue).ToString("MMMM"),
+                    Ay = date.ToDateTime(TimeOnly.MinValue).ToString("MM.yyyy"), // 📌 "MM.yyyy" formatında ay ve yıl
                     EPCAdet = shipmentData.FirstOrDefault(x => x.YilAy == date.ToString("yyyy-MM"))?.EPCAdet ?? 0
                 }).ToList();
-
 
                 var data = new
                 {
@@ -167,6 +166,7 @@ namespace LojiteksWeb.Controllers
                 return Ok(ex);
             }
         }
+
 
         [HttpPost]
         public IActionResult GetDashboardStats()

@@ -28,9 +28,8 @@ namespace LojiteksWeb.Controllers
         {
             var userJson = HttpContext.Session.GetString("Sessions");
             var SessionUsers = JsonSerializer.Deserialize<Sessions>(userJson);
-
             var shipmentsData = (from baslik in _context.TblBaslik
-                                 where baslik.Firma == SessionUsers.Firma 
+                                 where baslik.Firma == SessionUsers.Firma
                                  join musteri in _context.TblMusteri on baslik.Musteri equals musteri.Mkno
                                  select new
                                  {
@@ -40,7 +39,11 @@ namespace LojiteksWeb.Controllers
                                      musteri = musteri.Musteri,
                                      kullanici = baslik.Kullanici,
                                      adet = baslik.GonderiAdedi,
-                                     bid = baslik.Bkno
+                                     bid = baslik.Bkno,
+                                     sil = baslik.Silindi,
+                                     durum = _context.TblEpc
+                                                .Where(epc => epc.Firma == SessionUsers.Firma && epc.BaslikNo == baslik.Bkno)
+                                                .Count() // 📌 Doğru COUNT() kullanımı
                                  }).ToList();
 
             return Json(new { data = shipmentsData });

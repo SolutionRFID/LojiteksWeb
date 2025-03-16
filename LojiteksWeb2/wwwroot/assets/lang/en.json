@@ -34,6 +34,8 @@
 
   "t-po": "PO",
   "t-customer": "Customer",
+  "t-status": "Status",
+  "t-progress": "Progress",
   "t-user": "User",
   "t-actions": "Actions",
 
@@ -82,6 +84,43 @@
   "t-unlock": "Unlock",
   "t-details2": " Details",
   "t-notfound-epc": "This box does not contain any EPC.",
-  "t-delete": "Delete"
+  "t-delete": "Delete",
+  "t-closed": "Closed",
+  "t-open": "Open",
+
+  "head": {
+    "t-title-index": "Dashboard",
+    "t-title-newshipment": "Add New Shipment",
+    "t-title-shipmentsreports": "Shipment Report",
+    "t-title-shipmentdetails": "Shipment Details",
+
+    "t-desc-index": "Manage your business with the Lojiteks dashboard.",
+    "t-desc-newshipment": "Lojiteks shipment addition screen.",
+    "t-desc-shipmentsreports": "All orders in Lojiteks.",
+    "t-desc-shipmentdetails": "Lojiteks order details."
+  },
+
+  "datatable": {
+    "t-search": "Search:",
+    "t-lengthMenu": "Show _MENU_ records per page",
+    "t-info": "Showing _START_ to _END_ of _TOTAL_ records",
+    "t-infoEmpty": "No records to show",
+    "t-infoFiltered": "(filtered from _MAX_ total records)",
+    "t-zeroRecords": "No matching records found",
+    "paginate": {
+      "first": "First",
+      "last": "Last",
+      "next": "Next",
+      "previous": "Previous"
+    }
+  },
+
+  "buttons": {
+    "t-copy": "Copy",
+    "t-excel": "Excel Dowload",
+    "t-pdf": "PDF Dowload",
+    "t-colvis": "Edit Columns"
+  }
+
 
 }

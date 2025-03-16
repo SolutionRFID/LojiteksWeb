@@ -35,6 +35,8 @@
 
   "t-po": "PO",
   "t-customer": "Musteri",
+  "t-status": "Durum",
+  "t-progress": "İlerleme",
   "t-user": "Kullanıcı",
   "t-actions": "İşlemler",
 
@@ -83,6 +85,42 @@
   "t-unlock": "Kilidi Aç",
   "t-details2": " Ayrıntılar",
   "t-notfound-epc": "Bu koli için EPC bulunmamaktadır.",
-  "t-delete": "Sil"
+  "t-delete": "Sil",
+  "t-closed": "Kapalı",
+  "t-open": "Açık",
+
+  "head": {
+    "t-title-index": "Kontrol Paneli",
+    "t-title-newshipment": "Yeni Sevkiyat Ekle",
+    "t-title-shipmentsreports": "Sevkiyat Raporu",
+    "t-title-shipmentdetails": "Sevkiyat Detay",
+
+    "t-desc-index": "Lojiteks kontrol paneli ile işlerinizi yönetin.",
+    "t-desc-newshipment": "Lojiteks sevkiyat ekleme ekranı.",
+    "t-desc-shipmentsreports": "Lojiteks tüm sevkiyat.",
+    "t-desc-shipmentdetails": "Lojiteks sevkiyat detayları."
+  },
+
+  "datatable": {
+    "t-search": "Ara:",
+    "t-lengthMenu": "_MENU_ kayıt göster",
+    "t-info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+    "t-infoEmpty": "Gösterilecek kayıt yok",
+    "t-infoFiltered": "(_MAX_ kayıt içinden filtrelendi)",
+    "t-zeroRecords": "Eşleşen kayıt bulunamadı",
+    "paginate": {
+      "first": "İlk",
+      "last": "Son",
+      "next": "İleri",
+      "previous": "Geri"
+    }
+  },
+
+  "buttons": {
+    "t-copy": "Kopyala",
+    "t-excel": "Excel İndir",
+    "t-pdf": "PDF İndir",
+    "t-colvis": "Sutünları Düzenle"
+  }
 
 }

@@ -35,9 +35,11 @@ public class ShipmentDetailsController : Controller
                     }).ToList()
             }).ToList();
 
+        // 📌 Eğer veri yoksa, boş bir model ile sayfayı yine de yükle
         if (!details.Any())
         {
-            return NotFound("Sevkiyat bulunamadı.");
+            ViewBag.ErrorMessage = "Sevkiyat bulunamadı.";
+            return View("/Views/Pages/ShipmentDetails.cshtml", new List<ShipmentDetailsViewModel>());
         }
 
         // 📌 Eğer AJAX çağrısıysa JSON dön

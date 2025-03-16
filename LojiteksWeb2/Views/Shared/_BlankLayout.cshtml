@@ -10,7 +10,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta content="Themesbrand" name="author" />
+    <meta content="Lojiteks" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/assets/images/favicon.ico">
 
@@ -24,8 +24,11 @@
     <link href="~/assets/css/app.min.css" rel="stylesheet" />
     
 </head>
-
-<body>
+@{
+    var viewPath = ViewContext.View.Path;
+    var pageName = System.IO.Path.GetFileNameWithoutExtension(viewPath);
+}
+<body data-sidebar="dark" data-page="@pageName">
     @RenderBody()
 
     @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")

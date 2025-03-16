@@ -268,23 +268,35 @@
     <script src="~/assets/js/app.js"></script>
     <script src="~/assets/js/app.js"></script>
         <script>
-            var epcData = @Html.Raw(Json.Serialize(Model)); // 📌 Modeli JSON formatına çevir
+        var epcData = @Html.Raw(Json.Serialize(Model)); // 📌 Modeli JSON formatına çevir
+
+        $.getJSON(`/assets/lang/${localStorage.getItem('language') || 'tr'}.json`, function (lang) {
+            console.log("Dil JSON Verisi:", lang); // JSON'un yüklendiğini kontrol et
+
+            if (!lang || !lang.datatable) {
+                console.error("Dil dosyası hatalı veya eksik! DataTable çevirileri yüklenemedi.");
+                return;
+            }
 
             $(document).ready(function () {
                 $('#datatable-nesting').DataTable({
                     "language": {
-                        "search": "Search:",  // Change the name of the search box
-                        "lengthMenu": "Show _MENU_ records per page",
-                        "info": "Showing _START_ to _END_ of _TOTAL_ records",
-                        "infoEmpty": "No records available",
-                        "infoFiltered": "(filtered from _MAX_ total records)",
-                        "zeroRecords": "No matching records found",
+                        "search": lang.datatable["t-search"] || "Search:",
+                        "lengthMenu": lang.datatable["t-lengthMenu"] || "Show _MENU_ records per page",
+                        "info": lang.datatable["t-info"] || "Showing _START_ to _END_ of _TOTAL_ records",
+                        "infoEmpty": lang.datatable["t-infoEmpty"] || "No records available",
+                        "infoFiltered": lang.datatable["t-infoFiltered"] || "(filtered from _MAX_ total records)",
+                        "zeroRecords": lang.datatable["t-zeroRecords"] || "No matching records found",
                         "paginate": {
-                            "first": "First",
-                            "last": "Last",
-                            "next": "Next",
-                            "previous": "Previous"
+                            "first": lang.datatable.paginate?.["first"] || "First",
+                            "last": lang.datatable.paginate?.["last"] || "Last",
+                            "next": lang.datatable.paginate?.["next"] || "Next",
+                            "previous": lang.datatable.paginate?.["previous"] || "Previous"
                         }
+                    },
+                    initComplete: function () {
+                        // 📌 DataTable yüklendikten sonra dil çevirisini uygula
+                        getLanguage();
                     }
                 });
 
@@ -317,12 +329,16 @@
                     });
 
                     if (!found) {
-                        epcRows = "<tr><td colspan='3' class='text-warning' data-key='t-notfound-epc'>Bu koli için EPC bulunmamaktadır.</td></tr>";
+                        epcRows = "<tr><td colspan='3' class='text-warning' data-key='t-notfound-epc'>" + (lang?.["t-notfound-epc"] || "Bu koli için EPC bulunmamaktadır.") + "</td></tr>";
                     }
 
                     return epcRows;
                 }
             });
+        }).fail(function () {
+            console.error("Dil dosyası yüklenemedi!");
+        });
+
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -565,7 +581,7 @@
                                 grandTotal += 1; // **Toplam adeti hesapla**
                             });
 
-                            Object.data-keys(upcCounts).forEach(upc => {
+                            Object.keys(upcCounts).forEach(upc => {
                                 upcSummaryData.push([item.boxNo, upc, upcCounts[upc], item.readingDate]);
                             });
                         }
@@ -592,7 +608,7 @@
                                 grandTotal += 1; // **Toplam adeti hesapla**
                             });
 
-                            Object.data-keys(sizeCounts).forEach(size => {
+                            Object.keys(sizeCounts).forEach(size => {
                                     sizeSummaryData.push([item.boxNo, size, sizeCounts[size], item.readingDate]);
                             });
                         } 
@@ -724,7 +740,7 @@
                             grandTotal++;
                         });
 
-                        Object.data-keys(upcCounts).forEach(upc => {
+                        Object.keys(upcCounts).forEach(upc => {
                             tableBody.push([item.boxNo, upc, upcCounts[upc], item.readingDate]);
                         });
                     }
@@ -767,7 +783,7 @@
                             grandTotal++;
                         });
 
-                        Object.data-keys(sizeCounts).forEach(size => {
+                        Object.keys(sizeCounts).forEach(size => {
                             tableBody.push([item.boxNo, size, sizeCounts[size], item.readingDate]);
                         });
                     }

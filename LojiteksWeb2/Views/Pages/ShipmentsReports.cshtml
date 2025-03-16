@@ -31,7 +31,9 @@
                     <th data-key="t-shipment-date">Sevkiyat Tarihi</th>
                     <th data-key="t-description">Açıklama</th>
                     <th data-key="t-customer">Musteri</th>
-                    <th data-key="t-user">Kullanıcı</th> 
+                    <th data-key="t-progress" style="width: 30%;">ilerleme Durumu</th>
+                    <th data-key="t-status">Durum</th>
+
                     <th data-key="t-actions">İşlemler</th>
                   </tr>
                 </thead>
@@ -49,107 +51,136 @@
 
 
 @section scripts {
-            
+    <script src="~/assets/js/app.js"></script>
     <script>
-        $(document).ready(function() {
-            var table = $('#datatable-buttons').DataTable({
-                "language": {
-                          "t-search": "Search:",
-                          "t-lengthMenu": "Show _MENU_ records per page",
-                          "t-info": "Showing _START_ to _END_ of _TOTAL_ records",
-                          "t-infoEmpty": "No records to show",
-                          "t-infoFiltered": "(filtered from _MAX_ total records)",
-                          "t-zeroRecords": "No matching records found",
-                          "paginate": {
-                            "first": "First",
-                            "last": "Last",
-                            "next": "Next",
-                            "previous": "Previous"
-                          }
-                },
-                ajax: {
-                    url: '/api/GetShipments', // API endpoint URL (POST isteği ile)
-                    type: 'POST',
-                    dataSrc: 'data' // JSON yanıtınızın "data" propertysi içindeki array
-                },
-                columns: [
-                    { data: 'po', defaultContent: "" },
-                    { data: 'adet', defaultContent: "" },
-                    { data: 'gonderimTarihi', defaultContent: "" },
-                    { data: 'aciklama', defaultContent: "" },
-                    { data: 'musteri', defaultContent: "" },
-                    { data: 'kullanici', defaultContent: "" },
-                    { 
-                        data: 'bid',  // ✔ bid burada JSON'dan doğrudan geliyor
-                        defaultContent: "",
-                        orderable: false, // İşlemler sütunu sıralanamaz
-                        render: function (data, type, row) {
-                            return `
-                                <div class="btn-group">
-                                        <button type="button" class="btn btn-success waves-effect waves-light details-btn"  data-id="${data}">
-                                                <i class=\"bx bx-search-alt font-size-17 align-middle me-2\"></i> <b data-key="t-details2">Ayrıntılar</b>
-                                        </button>
 
-                                        <button type="button" class="btn btn-danger waves-effect waves-light delete-btn"  data-id="${data}">
-                                                    <i class=\"dripicons-cross font-size-17 align-middle me-2\"></i> <b data-key="t-delete">Sil</b>
-                                        </button>
-                                </div>
-                            `;
+            // Önce dil dosyasını yükle
+            $.getJSON(`/assets/lang/${localStorage.getItem('language') || 'tr'}.json`, function (lang) {
+
+
+                        console.log("Dil JSON Verisi:", lang); // JSON'un yüklendiğini kontrol et
+                        console.log("DataTable JSON:", lang.datatable);
+
+        if (!lang || !lang.datatable) {
+            console.error("Dil dosyası hatalı veya eksik! DataTable çevirileri yüklenemedi.");
+            return;
+        }
+
+                var table = $('#datatable-buttons').DataTable({
+                    "language": {
+                        "search": lang.datatable["t-search"] || "Search:",
+                        "lengthMenu": lang.datatable["t-lengthMenu"] || "Show _MENU_ records per page",
+                        "info": lang.datatable["t-info"] || "Showing _START_ to _END_ of _TOTAL_ records",
+                        "infoEmpty": lang.datatable["t-infoEmpty"] || "No records to show",
+                        "infoFiltered": lang.datatable["t-infoFiltered"] || "(filtered from _MAX_ total records)",
+                        "zeroRecords": lang.datatable["t-zeroRecords"] || "No matching records found",
+                        "paginate": {
+                            "first": lang.datatable.paginate["first"] || "First",
+                            "last": lang.datatable.paginate["last"] || "Last",
+                            "next": lang.datatable.paginate["next"] || "Next",
+                            "previous": lang.datatable.paginate["previous"] || "Previous"
                         }
-                    }
-                ],
-                lengthChange: false,
-                dom: 'Bfrtip', // DataTable butonları için gerekli
-                buttons: [
-                    { extend: 'copy', text: 'Copy' },  // 🔹 "Copy" butonunu "Kopyala" olarak değiştir
-                    { extend: 'excel', text: 'Excel' }, // 🔹 "Excel" butonunu "Excel İndir" olarak değiştir
-                    { extend: 'pdf', text: 'PDF' }, // 🔹 "PDF" butonunu "PDF İndir" olarak değiştir
-                    { extend: 'colvis', text: 'Edit' } // 🔹 "Column visibility" butonu güncellendi
-                ],
-                initComplete: function () {
-                    table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+                    },
+                    ajax: {
+                        url: '/api/GetShipments',
+                        type: 'POST',
+                        dataSrc: 'data'
+                    },
+                    columns: [
+                        { data: 'po', defaultContent: "" },
+                        { data: 'adet', defaultContent: "" },
+                        { data: 'gonderimTarihi', defaultContent: "" },
+                        { data: 'aciklama', defaultContent: "" },
+                        { data: 'musteri', defaultContent: "" },
+                        {
+                            data: 'durum', // 📌 Durum değeri adete göre ilerleme çubuğuna çevrilecek
+                            defaultContent: "",
+                            orderable: false,
+                            render: function (data, type, row) {
+                                let adet = row.adet || 1; // 📌 `adet` sıfır olursa hata olmaması için varsayılan `1`
+                                let progress = Math.min(Math.round((data / adet) * 100), 100); // 📌 Yüzde hesaplama (max 100%)
+                                return `
+                                <div>
+                                <div class="progress position-relative" style="height: 30px; font-size: 20px;">
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                        style="width: ${progress}%; height: 100%; "
+                                        aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                    <span class="progress-text">${progress}%</span>
+                                </div>`;
+                            }
+                        },
+                        {
+                            data: 'sil',
+                            defaultContent: "",
+                            orderable: false,
+                            render: function (data, type, row) {
+                                if (data === true) {
+                                     return `<button type="button" class="btn btn-danger waves-effect waves-light" disabled ><b data-key="t-closed">Kapalı</b></button>`;
+                                    
+                                } else {
+                                   return `<button type="button" class="btn btn-success waves-effect waves-light" disabled ><b data-key="t-open">Açık</b></button>`;
+                                }
+                            }
+                        },
+                        {
+                            data: 'bid',
+                            defaultContent: "",
+                            orderable: false,
+                            render: function (data, type, row) {
+                                return `
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success waves-effect waves-light details-btn" data-id="${data}">
+                                            <i class="bx bx-search-alt font-size-17 align-middle me-2"></i>
+                                            <b data-key="t-details2">"Ayrıntılar"</b>
+                                        </button>
+                                        <button type="button" class="btn btn-danger waves-effect waves-light delete-btn" data-id="${data}">
+                                            <i class="bx bxs-trash font-size-17 align-middle me-2"></i>
+                                            <b data-key="t-delete">"Sil"</b>
+                                        </button>
+                                    </div>
+                                `;
+                            }
+                        }
+                    ],
+                    lengthChange: false,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        { extend: 'copy', text: lang.buttons["t-copy"] || 'Copy' },
+                        { extend: 'excel', text: lang.buttons["t-excel"] || 'Excel' },
+                        { extend: 'pdf', text: lang.buttons["t-pdf"] || 'PDF' },
+                    ],
+                    initComplete: function () {
+                        table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 
-                    // "Yeni Sevkiyat Ekle" butonunu en sağa hizalı ekleyelim
-                    $('.col-md-6:eq(0)').after(`
-                        <div class="col-sm-12 col-md-6 text-end">
-                                <button id="NewShipmentButton" class="btn btn-primary" >
-                                <i class="fas fa-plus"></i> <b data-key="t-shipment-add">Yeni Sevkiyat Ekle</b>
-                            </button>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                    `);
+                        $('.col-md-6:eq(0)').after(`
+                            <div class="col-sm-12 col-md-6 text-end">
+                                <button id="NewShipmentButton" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i>
+                                    <b data-key="t-shipment-add">${lang.buttons["t-shipment-add"] || "Yeni Sevkiyat Ekle"}</b>
+                                </button>
+                            </div>
+                            <br><br><br>
+                        `);
 
-                    // Yeni Sevkiyat Ekle butonuna tıklanınca yönlendirme
-                        $('#NewShipmentButton').on('click', function() {
-                        window.location.href = '/NewShipment';
-                    });
-
-                    $(document).ready(function () {
-                        $('#datatable-buttons tbody').on('click', '.details-btn', function () {
-                            var bid = $(this).data("id");  // Butondan `bid` değerini al
-                                window.location.href = '/api/GetShipmentDetails?ShipmentID=' + bid; // Sayfaya yönlendir
+                        $('#NewShipmentButton').on('click', function () {
+                            window.location.href = '/NewShipment';
                         });
-                    });
-                }
+
+                        $('#datatable-buttons tbody').on('click', '.details-btn', function () {
+                            var bid = $(this).data("id");
+                            window.location.href = '/api/GetShipmentDetails?ShipmentID=' + bid;
+                        });
+
+                        // **DataTable tamamlandıktan sonra dil çevirisini uygula**
+                        window.getLanguage();
+                    }
+                });
+
+            }).fail(function () {
+                console.error("Dil dosyası yüklenemedi!");
             });
 
-            // Sevkiyat düzenleme butonu
-            $('#datatable-buttons tbody').on('click', '.edit-btn', function() {
-                var shipmentId = $(this).data("id");
-                window.location.href = '/EditShipment?po=' + shipmentId;
-            });
-
-            // Sevkiyat silme butonu
-            $('#datatable-buttons tbody').on('click', '.delete-btn', function() {
-                var shipmentId = $(this).data("id");
-                if (confirm("Bu sevkiyatı silmek istediğinizden emin misiniz?")) {
-                    deleteShipment(shipmentId);
-                }
-            });
-
-        });
 
         // Sevkiyat Silme Fonksiyonu
         function deleteShipment(po) {
@@ -166,10 +197,8 @@
             });
         }
 
-             
-
     </script>
-        <script src="~/assets/js/app.js"></script>
+
 
     
 

@@ -8,7 +8,11 @@
     @Html.Partial("~/Views/Shared/_head_css.cshtml")
 </head>
 
-<body data-sidebar="dark">
+@{
+    var viewPath = ViewContext.View.Path;
+    var pageName = System.IO.Path.GetFileNameWithoutExtension(viewPath);
+}
+<body data-sidebar="dark" data-page="@pageName">
 
     <!-- Preloader Başlangıcı -->
     <div id="preloader"> 

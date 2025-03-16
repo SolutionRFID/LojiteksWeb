@@ -51,28 +51,58 @@ File: Main Js File
 
         $.getJSON(`/assets/lang/${language}.json`)
             .done(function (lang) {
-                console.log(`Dil dosyasý (${language}) baþarýyla yüklendi.`);
 
                 $('html').attr('lang', language);
 
-                // Sayfa baþlýðýný deðiþtir
-                if (lang.head && lang.head.title) {
-                    $(document).attr("title", lang.head.title);
+                let pageKey = $("body").data("page") ? $("body").data("page").toLowerCase() : "index";
+                console.log(`Sayfa Anahtarý: ${pageKey}`);
+
+                // Sayfa baþlýðýný güncelle
+                if (lang.head && lang.head[`t-title-${pageKey}`]) {
+                    document.title = `${lang.head[`t-title-${pageKey}`]} | Lojiteks`;
+                    $("meta[name='title']").attr("content", document.title);
                 }
 
-                // Tüm çevirileri güncelle
+                // **Meta description güncelleme**
+                let descriptionKey = `t-desc-${pageKey}`;
+                if (lang.head && lang.head[descriptionKey]) {
+                    $("meta[name='description']").attr("content", lang.head[descriptionKey]);
+                } else {
+                    $("meta[name='description']").attr("content", `${lang.head[pageKey] || "Lojiteks"} | Lojiteks`);
+                }
+
+                // **Tüm çevirileri güncelle**
                 $("[data-key]").each(function () {
                     let key = $(this).data("key");
-                    if (lang[key]) {
-                        $(this).html(lang[key]);
+                    let translation = key.startsWith("head.")
+                        ? (lang.head && lang.head[key.replace("head.", "")])
+                        : lang[key];
+
+                    if (translation) {
+                        $(this).html(translation);
+                    } else {
+                        console.warn(`Çeviri bulunamadý: ${key}`);
                     }
                 });
-                
+
+                // **DataTable içindeki `data-key` deðerlerini güncelle**
+                $("#datatable-buttons tbody").find("[data-key]").each(function () {
+                    let key = $(this).data("key");
+                    let translation = lang[key];
+
+                    if (translation) {
+                        $(this).html(translation);
+                    } else {
+                        console.warn(`DataTable içinde çeviri bulunamadý: ${key}`);
+                    }
+                });
+
             })
             .fail(function () {
                 console.error(`Dil dosyasý yüklenemedi: /assets/lang/${language}.json`);
             });
     }
+
 
 
     function initMetisMenu() {
@@ -370,5 +400,6 @@ File: Main Js File
     }
 
     init();
+    window.getLanguage = getLanguage;
 
 })(jQuery)

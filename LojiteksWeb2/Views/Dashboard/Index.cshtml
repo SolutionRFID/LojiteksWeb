@@ -5,6 +5,10 @@
     ViewBag.pageTitle = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    var languageData = @Html.Raw(Json.Serialize(ViewData["Lang"]));
+</script>
+
 
 <div class="row">
     <!-- 📌 Toplam Sevkiyat -->
@@ -111,7 +115,7 @@
         $(document).ready(function () 
         {
             var finalColors = getChartColorsArray("pie_chart");
-            console.log(finalColors); // 6 elemanlı bir dizi mi? Her eleman geçerli bir renk mi?
+
             $.ajax({
                         url: '/Dashboard/GetLast6MonthShipments',  // Controller'daki POST action URL'si
                 type: 'POST',
@@ -187,7 +191,7 @@
         $(document).ready(function () 
         {
             var finalColors = getChartColorsArray("pie_chart2");
-            console.log(finalColors); // 6 elemanlı bir dizi mi? Her eleman geçerli bir renk mi?
+
             $.ajax({
                         url: '/Dashboard/GetLast6ClosedMonthShipments',  // Controller'daki POST action URL'si
                 type: 'POST',
@@ -264,7 +268,7 @@
         <script>
             $(document).ready(function () {
                 var finalColors = getChartColorsArray("spline_area");
-                console.log(finalColors); // Renk dizisinin doğru olup olmadığını kontrol et
+
 
                 $.ajax({
                     url: '/Dashboard/GetLast6MonthProduct',  // 📌 Controller'dan veri çekilecek API adresi
@@ -276,7 +280,7 @@
                                 type: 'area',
                                 height: 350
                             },
-                                series: [{ name: "EPC Adeti", data: data.series[0] }],   // 📌 API'den gelen veriler
+                                series: [{ name: "", data: data.series[0] }],   // 📌 API'den gelen veriler
                             colors: getChartColorsArray("spline_area"),
                             dataLabels: {
                                 enabled: false
@@ -350,7 +354,7 @@
                     type: 'POST',
                     dataType: 'json',
                     success: function (data) {
-                        console.log("Gelen API verisi:", data);
+
 
                         if (data.error) {
                             console.error("Hata:", data.error);
@@ -367,6 +371,7 @@
                     }
                 });
             });
+                   
         </script>
 
 }
