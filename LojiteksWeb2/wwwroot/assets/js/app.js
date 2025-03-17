@@ -68,7 +68,8 @@ File: Main Js File
                 if (lang.head && lang.head[descriptionKey]) {
                     $("meta[name='description']").attr("content", lang.head[descriptionKey]);
                 } else {
-                    $("meta[name='description']").attr("content", `${lang.head[pageKey] || "Lojiteks"} | Lojiteks`);
+                    console.error(`Dil dosyasýnda eksik veya hatalý deðer: pageKey=${pageKey}, lang.head=${JSON.stringify(lang.head)}`);
+                    $("meta[name='description']").attr("content", `${lang[pageKey] || "Lojiteks"} | Lojiteks`);
                 }
 
                 // **Tüm çevirileri güncelle**
@@ -358,11 +359,9 @@ File: Main Js File
     function initLanguage() {
         // Auto Loader
         if (language != null && language !== default_lang)
-            document.addEventListener("DOMContentLoaded", function () {
-                window.onload = function () {
-                    setLanguage(language);
-                };
-            });
+
+        setLanguage(language);
+
 
         $('.language').on('click', function (e) {
             setLanguage($(this).attr('data-lang'));

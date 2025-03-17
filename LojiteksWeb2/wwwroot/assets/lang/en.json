@@ -93,11 +93,16 @@
     "t-title-newshipment": "Add New Shipment",
     "t-title-shipmentsreports": "Shipment Report",
     "t-title-shipmentdetails": "Shipment Details",
+    "t-title-login2": "Login",
+    "t-title-lockscreen2": "Login",
+
 
     "t-desc-index": "Manage your business with the Lojiteks dashboard.",
     "t-desc-newshipment": "Lojiteks shipment addition screen.",
     "t-desc-shipmentsreports": "All orders in Lojiteks.",
-    "t-desc-shipmentdetails": "Lojiteks order details."
+    "t-desc-shipmentdetails": "Lojiteks order details.",
+    "t-desc-login2": "User login",
+    "t-desc-lockscreen2": "Lock screen"
   },
 
   "datatable": {

@@ -94,11 +94,15 @@
     "t-title-newshipment": "Yeni Sevkiyat Ekle",
     "t-title-shipmentsreports": "Sevkiyat Raporu",
     "t-title-shipmentdetails": "Sevkiyat Detay",
+    "t-title-login2": "Giriş Yap",
+    "t-title-lockscreen2": "Giriş Yap",
 
     "t-desc-index": "Lojiteks kontrol paneli ile işlerinizi yönetin.",
     "t-desc-newshipment": "Lojiteks sevkiyat ekleme ekranı.",
     "t-desc-shipmentsreports": "Lojiteks tüm sevkiyat.",
-    "t-desc-shipmentdetails": "Lojiteks sevkiyat detayları."
+    "t-desc-shipmentdetails": "Lojiteks sevkiyat detayları.",
+    "t-desc-login2": "Kullanıcı girişi",
+    "t-desc-lockscreen2": "Kilit ekranı"
   },
 
   "datatable": {
